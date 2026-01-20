@@ -2,7 +2,7 @@ import { sql } from "drizzle-orm";
 import { pgTable, text, varchar } from "drizzle-orm/pg-core";
 
 import { date } from "drizzle-orm/pg-core";
-import { timestamps } from "../utils/helpers";
+import { timestamps } from "./helpers";
 import { organization } from "./auth.schema";
 
 export const childrens = pgTable("childrens", {

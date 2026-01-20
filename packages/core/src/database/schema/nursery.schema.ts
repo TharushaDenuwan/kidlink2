@@ -1,6 +1,6 @@
 import { sql } from "drizzle-orm";
 import { pgTable, real, text } from "drizzle-orm/pg-core";
-import { timestamps } from "../utils/helpers";
+import { timestamps } from "./helpers";
 import { organization, user } from "./auth.schema";
 
 export const nurseries = pgTable("nurseries", {

@@ -1,6 +1,6 @@
 import { sql } from "drizzle-orm";
 import { integer, pgEnum, pgTable, text } from "drizzle-orm/pg-core";
-import { timestamps } from "../utils/helpers";
+import { timestamps } from "./helpers";
 
 export const mediaTypeEnum = pgEnum("media_type", [
   "image",
