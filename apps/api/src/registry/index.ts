@@ -32,7 +32,7 @@ import user from "../routes/user/user.index";
 export function registerRoutes(app: OpenAPI) {
 const registeredApp = app
   .route("/", index)
-  .route("/badges", badges)
+  .route("/badges", badges);
   // .route("/children", children)
   // .route("/conversation-participants", conversationParticipant)
   // .route("/conversations", conversation)
@@ -51,7 +51,7 @@ const registeredApp = app
   // .route("/payments", payment)
   // .route("/property-classes", propertyClasses)
   // .route("/system", system)
-  .route("/tasks", tasks);
+  // .route("/tasks", tasks);
   // .route("/teachers", teacher)
   // .route("/users", user);
 
