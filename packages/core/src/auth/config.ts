@@ -3,7 +3,7 @@ import { betterAuth } from "better-auth";
 
 import { type Database } from "../database";
 import * as authSchema from "../database/schema/auth.schema";
-import { admin, openAPI } from "better-auth/plugins";
+import { admin, openAPI, organization } from "better-auth/plugins";
 
 export interface AuthConfigurations {
   database: Database;
@@ -19,7 +19,12 @@ export function configAuth(config: AuthConfigurations) {
       usePlural: true
     }),
     secret: config.secret,
-    plugins: [admin(), openAPI(), ...(config.plugins || [])],
+    plugins: [admin(), openAPI(),organization({
+      allowUserToCreateOrganization() {
+        // TODO: In future, Allow permissions based on user's subscription
+        return true;
+      }
+    }), ...(config.plugins || [])],
 
     emailAndPassword: {
       enabled: true

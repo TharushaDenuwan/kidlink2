@@ -1,9 +1,9 @@
-import { createRouter } from "@api/lib/create-app";
+import { createAPIRouter } from "@/lib/setup-api";
 
 import * as handlers from "./badges.handler";
 import * as routes from "./badges.routes";
 
-const router = createRouter()
+const router = createAPIRouter()
 //.openapi(routes.list, handlers.list)
   .openapi(routes.list, handlers.list)
   .openapi(routes.create, handlers.create)

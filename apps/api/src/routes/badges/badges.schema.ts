@@ -1,7 +1,8 @@
+import { badges } from "core/database/schema";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
 
-import { badges } from "@repo/database";
+// import { badges } from "@repo/database";
 
 export const badgesSchema = createSelectSchema(badges);
 

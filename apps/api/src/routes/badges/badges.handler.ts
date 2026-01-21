@@ -2,14 +2,17 @@ import { eq } from "drizzle-orm";
 import * as HttpStatusCodes from "stoker/http-status-codes";
 import * as HttpStatusPhrases from "stoker/http-status-phrases";
 
-import { db } from "@api/db";
-import type { AppRouteHandler } from "@api/types";
-import { badges } from "@repo/database";
+// import { db } from "@api/db";
+import { APIRouteHandler } from "@/types";
+// import { badges } from "@repo/database";
 
 import type { ListRoute } from "./badges.routes";
+import { badges } from "core/database/schema";
 
 // 🔍 List all badges with filtering by organization ID
-export const list: AppRouteHandler<ListRoute> = async (c) => {
+export const list: APIRouteHandler<ListRoute> = async (c) => {
+      const db = c.get("db");
+
   const session = c.get("session");
 
   if (!session?.activeOrganizationId) {
@@ -63,6 +66,8 @@ export const list: AppRouteHandler<ListRoute> = async (c) => {
 
 // Create new badges
 export const create = async (c: any) => {
+        const db = c.get("db");
+
   const body = c.req.valid("json");
   const session = c.get("session");
 
@@ -87,6 +92,8 @@ export const create = async (c: any) => {
 
 // 🔍 Get a single badges
 export const getOne = async (c: any) => {
+        const db = c.get("db");
+
   const { id } = c.req.valid("param");
 
   const badge = await db.query.badges.findFirst({
@@ -105,6 +112,8 @@ export const getOne = async (c: any) => {
 
 // Update badges
 export const patch = async (c: any) => {
+        const db = c.get("db");
+
   const { id } = c.req.valid("param");
   const updates = c.req.valid("json");
   const session = c.get("user");
@@ -137,6 +146,8 @@ export const patch = async (c: any) => {
 
 //  Delete badges
 export const remove = async (c: any) => {
+        const db = c.get("db");
+
   const { id } = c.req.valid("param");
   const session = c.get("user") as { organizationId?: string } | undefined;
 
