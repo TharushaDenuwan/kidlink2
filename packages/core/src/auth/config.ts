@@ -17,7 +17,7 @@ export function configAuth(config: AuthConfigurations) {
       
       provider: "pg",
       schema: authSchema,
-      // usePlural: false
+      usePlural: true
     }),
     secret: config.secret,
     plugins: [admin(), openAPI(),organization({
