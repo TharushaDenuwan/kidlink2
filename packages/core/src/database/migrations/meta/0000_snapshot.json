@@ -1,5 +1,5 @@
 {
-  "id": "d5a7c8f2-385d-429b-ae81-beda4cd09de0",
+  "id": "9e1863d3-5c1e-48bf-8374-fa107194033d",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -61,8 +61,8 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.account": {
-      "name": "account",
+    "public.accounts": {
+      "name": "accounts",
       "schema": "",
       "columns": {
         "id": {
@@ -146,10 +146,10 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "account_user_id_user_id_fk": {
-          "name": "account_user_id_user_id_fk",
-          "tableFrom": "account",
-          "tableTo": "user",
+        "accounts_user_id_users_id_fk": {
+          "name": "accounts_user_id_users_id_fk",
+          "tableFrom": "accounts",
+          "tableTo": "users",
           "columnsFrom": [
             "user_id"
           ],
@@ -166,8 +166,8 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.invitation": {
-      "name": "invitation",
+    "public.invitations": {
+      "name": "invitations",
       "schema": "",
       "columns": {
         "id": {
@@ -216,10 +216,10 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "invitation_organization_id_organization_id_fk": {
-          "name": "invitation_organization_id_organization_id_fk",
-          "tableFrom": "invitation",
-          "tableTo": "organization",
+        "invitations_organization_id_organizations_id_fk": {
+          "name": "invitations_organization_id_organizations_id_fk",
+          "tableFrom": "invitations",
+          "tableTo": "organizations",
           "columnsFrom": [
             "organization_id"
           ],
@@ -229,10 +229,10 @@
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
-        "invitation_inviter_id_user_id_fk": {
-          "name": "invitation_inviter_id_user_id_fk",
-          "tableFrom": "invitation",
-          "tableTo": "user",
+        "invitations_inviter_id_users_id_fk": {
+          "name": "invitations_inviter_id_users_id_fk",
+          "tableFrom": "invitations",
+          "tableTo": "users",
           "columnsFrom": [
             "inviter_id"
           ],
@@ -249,8 +249,8 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.member": {
-      "name": "member",
+    "public.members": {
+      "name": "members",
       "schema": "",
       "columns": {
         "id": {
@@ -287,10 +287,10 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "member_organization_id_organization_id_fk": {
-          "name": "member_organization_id_organization_id_fk",
-          "tableFrom": "member",
-          "tableTo": "organization",
+        "members_organization_id_organizations_id_fk": {
+          "name": "members_organization_id_organizations_id_fk",
+          "tableFrom": "members",
+          "tableTo": "organizations",
           "columnsFrom": [
             "organization_id"
           ],
@@ -300,10 +300,10 @@
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
-        "member_user_id_user_id_fk": {
-          "name": "member_user_id_user_id_fk",
-          "tableFrom": "member",
-          "tableTo": "user",
+        "members_user_id_users_id_fk": {
+          "name": "members_user_id_users_id_fk",
+          "tableFrom": "members",
+          "tableTo": "users",
           "columnsFrom": [
             "user_id"
           ],
@@ -320,8 +320,8 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.organization": {
-      "name": "organization",
+    "public.organizations": {
+      "name": "organizations",
       "schema": "",
       "columns": {
         "id": {
@@ -365,8 +365,8 @@
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
-        "organization_slug_unique": {
-          "name": "organization_slug_unique",
+        "organizations_slug_unique": {
+          "name": "organizations_slug_unique",
           "nullsNotDistinct": false,
           "columns": [
             "slug"
@@ -377,8 +377,8 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.session": {
-      "name": "session",
+    "public.sessions": {
+      "name": "sessions",
       "schema": "",
       "columns": {
         "id": {
@@ -444,10 +444,10 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "session_user_id_user_id_fk": {
-          "name": "session_user_id_user_id_fk",
-          "tableFrom": "session",
-          "tableTo": "user",
+        "sessions_user_id_users_id_fk": {
+          "name": "sessions_user_id_users_id_fk",
+          "tableFrom": "sessions",
+          "tableTo": "users",
           "columnsFrom": [
             "user_id"
           ],
@@ -460,8 +460,8 @@
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
-        "session_token_unique": {
-          "name": "session_token_unique",
+        "sessions_token_unique": {
+          "name": "sessions_token_unique",
           "nullsNotDistinct": false,
           "columns": [
             "token"
@@ -472,8 +472,8 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.user": {
-      "name": "user",
+    "public.users": {
+      "name": "users",
       "schema": "",
       "columns": {
         "id": {
@@ -508,13 +508,13 @@
         },
         "created_at": {
           "name": "created_at",
-          "type": "timestamp",
+          "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": true
         },
         "updated_at": {
           "name": "updated_at",
-          "type": "timestamp",
+          "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": true
         },
@@ -547,8 +547,8 @@
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
-        "user_email_unique": {
-          "name": "user_email_unique",
+        "users_email_unique": {
+          "name": "users_email_unique",
           "nullsNotDistinct": false,
           "columns": [
             "email"
@@ -559,8 +559,8 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.verification": {
-      "name": "verification",
+    "public.verifications": {
+      "name": "verifications",
       "schema": "",
       "columns": {
         "id": {
@@ -733,10 +733,10 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "notification_organization_id_organization_id_fk": {
-          "name": "notification_organization_id_organization_id_fk",
+        "notification_organization_id_organizations_id_fk": {
+          "name": "notification_organization_id_organizations_id_fk",
           "tableFrom": "notification",
-          "tableTo": "organization",
+          "tableTo": "organizations",
           "columnsFrom": [
             "organization_id"
           ],
@@ -823,10 +823,10 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "parent_organization_id_organization_id_fk": {
-          "name": "parent_organization_id_organization_id_fk",
+        "parent_organization_id_organizations_id_fk": {
+          "name": "parent_organization_id_organizations_id_fk",
           "tableFrom": "parent",
-          "tableTo": "organization",
+          "tableTo": "organizations",
           "columnsFrom": [
             "organization_id"
           ],
@@ -913,10 +913,10 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "teacher_organization_id_organization_id_fk": {
-          "name": "teacher_organization_id_organization_id_fk",
+        "teacher_organization_id_organizations_id_fk": {
+          "name": "teacher_organization_id_organizations_id_fk",
           "tableFrom": "teacher",
-          "tableTo": "organization",
+          "tableTo": "organizations",
           "columnsFrom": [
             "organization_id"
           ],
@@ -1009,10 +1009,10 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "feedback_organization_id_organization_id_fk": {
-          "name": "feedback_organization_id_organization_id_fk",
+        "feedback_organization_id_organizations_id_fk": {
+          "name": "feedback_organization_id_organizations_id_fk",
           "tableFrom": "feedback",
-          "tableTo": "organization",
+          "tableTo": "organizations",
           "columnsFrom": [
             "organization_id"
           ],
@@ -1035,10 +1035,10 @@
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "feedback_teacher_id_user_id_fk": {
-          "name": "feedback_teacher_id_user_id_fk",
+        "feedback_teacher_id_users_id_fk": {
+          "name": "feedback_teacher_id_users_id_fk",
           "tableFrom": "feedback",
-          "tableTo": "user",
+          "tableTo": "users",
           "columnsFrom": [
             "teacher_id"
           ],
@@ -1152,10 +1152,10 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "nurseries_organization_id_organization_id_fk": {
-          "name": "nurseries_organization_id_organization_id_fk",
+        "nurseries_organization_id_organizations_id_fk": {
+          "name": "nurseries_organization_id_organizations_id_fk",
           "tableFrom": "nurseries",
-          "tableTo": "organization",
+          "tableTo": "organizations",
           "columnsFrom": [
             "organization_id"
           ],
@@ -1165,10 +1165,10 @@
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
-        "nurseries_created_by_user_id_fk": {
-          "name": "nurseries_created_by_user_id_fk",
+        "nurseries_created_by_users_id_fk": {
+          "name": "nurseries_created_by_users_id_fk",
           "tableFrom": "nurseries",
-          "tableTo": "user",
+          "tableTo": "users",
           "columnsFrom": [
             "created_by"
           ],
@@ -1268,10 +1268,10 @@
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "payments_organization_id_organization_id_fk": {
-          "name": "payments_organization_id_organization_id_fk",
+        "payments_organization_id_organizations_id_fk": {
+          "name": "payments_organization_id_organizations_id_fk",
           "tableFrom": "payments",
-          "tableTo": "organization",
+          "tableTo": "organizations",
           "columnsFrom": [
             "organization_id"
           ],
@@ -1365,10 +1365,10 @@
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
-        "classes_organization_id_organization_id_fk": {
-          "name": "classes_organization_id_organization_id_fk",
+        "classes_organization_id_organizations_id_fk": {
+          "name": "classes_organization_id_organizations_id_fk",
           "tableFrom": "classes",
-          "tableTo": "organization",
+          "tableTo": "organizations",
           "columnsFrom": [
             "organization_id"
           ],
@@ -1504,10 +1504,10 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "childrens_organization_id_organization_id_fk": {
-          "name": "childrens_organization_id_organization_id_fk",
+        "childrens_organization_id_organizations_id_fk": {
+          "name": "childrens_organization_id_organizations_id_fk",
           "tableFrom": "childrens",
-          "tableTo": "organization",
+          "tableTo": "organizations",
           "columnsFrom": [
             "organization_id"
           ],
@@ -1588,10 +1588,10 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "lesson_plans_organization_id_organization_id_fk": {
-          "name": "lesson_plans_organization_id_organization_id_fk",
+        "lesson_plans_organization_id_organizations_id_fk": {
+          "name": "lesson_plans_organization_id_organizations_id_fk",
           "tableFrom": "lesson_plans",
-          "tableTo": "organization",
+          "tableTo": "organizations",
           "columnsFrom": [
             "organization_id"
           ],
@@ -1744,10 +1744,10 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "badges_organization_id_organization_id_fk": {
-          "name": "badges_organization_id_organization_id_fk",
+        "badges_organization_id_organizations_id_fk": {
+          "name": "badges_organization_id_organizations_id_fk",
           "tableFrom": "badges",
-          "tableTo": "organization",
+          "tableTo": "organizations",
           "columnsFrom": [
             "organization_id"
           ],
@@ -1770,10 +1770,10 @@
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "badges_teacher_id_user_id_fk": {
-          "name": "badges_teacher_id_user_id_fk",
+        "badges_teacher_id_users_id_fk": {
+          "name": "badges_teacher_id_users_id_fk",
           "tableFrom": "badges",
-          "tableTo": "user",
+          "tableTo": "users",
           "columnsFrom": [
             "teacher_id"
           ],
@@ -1884,10 +1884,10 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "event_organization_id_organization_id_fk": {
-          "name": "event_organization_id_organization_id_fk",
+        "event_organization_id_organizations_id_fk": {
+          "name": "event_organization_id_organizations_id_fk",
           "tableFrom": "event",
-          "tableTo": "organization",
+          "tableTo": "organizations",
           "columnsFrom": [
             "organization_id"
           ],
@@ -2036,10 +2036,10 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "conversations_organization_id_organization_id_fk": {
-          "name": "conversations_organization_id_organization_id_fk",
+        "conversations_organization_id_organizations_id_fk": {
+          "name": "conversations_organization_id_organizations_id_fk",
           "tableFrom": "conversations",
-          "tableTo": "organization",
+          "tableTo": "organizations",
           "columnsFrom": [
             "organization_id"
           ],
@@ -2122,10 +2122,10 @@
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
-        "conversationParticipants_user_id_user_id_fk": {
-          "name": "conversationParticipants_user_id_user_id_fk",
+        "conversationParticipants_user_id_users_id_fk": {
+          "name": "conversationParticipants_user_id_users_id_fk",
           "tableFrom": "conversationParticipants",
-          "tableTo": "user",
+          "tableTo": "users",
           "columnsFrom": [
             "user_id"
           ],
@@ -2230,10 +2230,10 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "galleries_organization_id_organization_id_fk": {
-          "name": "galleries_organization_id_organization_id_fk",
+        "galleries_organization_id_organizations_id_fk": {
+          "name": "galleries_organization_id_organizations_id_fk",
           "tableFrom": "galleries",
-          "tableTo": "organization",
+          "tableTo": "organizations",
           "columnsFrom": [
             "organization_id"
           ],

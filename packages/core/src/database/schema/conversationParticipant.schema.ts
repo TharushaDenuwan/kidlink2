@@ -1,7 +1,7 @@
 import { sql } from "drizzle-orm";
 import { pgTable, text, timestamp, varchar } from "drizzle-orm/pg-core";
-// import { organization } from "./auth.schema";
-import { user } from "./auth.schema";
+// import { organizations } from "./auth.schema";
+import { users } from "./auth.schema";
 import { conversations } from "./conversation.schema";
 
 export const conversationParticipants = pgTable("conversationParticipants", {
@@ -12,7 +12,7 @@ export const conversationParticipants = pgTable("conversationParticipants", {
     .notNull()
     .references(() => conversations.id, { onDelete: "cascade" }),
   userId: text("user_id")
-    .references(() => user.id)
+    .references(() => users.id)
     .notNull(),
 
   role: varchar("role", { length: 50 }),

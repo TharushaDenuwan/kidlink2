@@ -5,7 +5,7 @@ import {
   timestamp,
   varchar,
 } from "drizzle-orm/pg-core";
-import { organization } from "./auth.schema";
+import { organizations } from "./auth.schema";
 import { childrens } from "./children.schema";
 
 export const payments = pgTable("payments", {
@@ -20,7 +20,7 @@ export const payments = pgTable("payments", {
   slipUrl: text("slip_url"), // URL to the payment slip image
   status: varchar("status", { length: 20 }).default("pending").notNull(), // pending, completed, failed
   paidAt: timestamp("paid_at"),
-  organizationId: text("organization_id").references(() => organization.id),
+  organizationId: text("organization_id").references(() => organizations.id),
 
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),

@@ -1,6 +1,6 @@
 import { sql } from "drizzle-orm";
 import { pgTable, text, timestamp, varchar } from "drizzle-orm/pg-core";
-import { organization } from "./auth.schema";
+import { organizations } from "./auth.schema";
 import { nurseries } from "./nursery.schema";
 import { teachers } from "./teacher.schema";
 
@@ -13,7 +13,7 @@ export const classes = pgTable("classes", {
     onDelete: "cascade",
   }),
 
-  organizationId: text("organization_id").references(() => organization.id),
+  organizationId: text("organization_id").references(() => organizations.id),
 
   name: varchar("name", { length: 100 }).notNull(),
 

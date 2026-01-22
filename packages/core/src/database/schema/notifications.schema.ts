@@ -1,12 +1,12 @@
 import { sql } from "drizzle-orm";
 import { pgTable, text, timestamp, varchar } from "drizzle-orm/pg-core";
-import { organization } from "./auth.schema";
+import { organizations } from "./auth.schema";
 
 export const notifications = pgTable("notifications", {
   id: text("id")
     .primaryKey()
     .default(sql`gen_random_uuid()`),
-  organizationId: text("organization_id").references(() => organization.id),
+  organizationId: text("organization_id").references(() => organizations.id),
   title: varchar("title", { length: 255 }).notNull(),
   message: text("message").notNull(),
   metadata: text("metadata"),

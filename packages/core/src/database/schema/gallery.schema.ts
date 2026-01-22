@@ -1,6 +1,6 @@
 import { sql } from "drizzle-orm";
 import { pgTable, text, timestamp, varchar } from "drizzle-orm/pg-core";
-import { organization } from "./auth.schema";
+import { organizations } from "./auth.schema";
 
 // assuming you have a children schema
 // import { classes } from "./classes.schema"; // uncomment if you have classes table
@@ -9,7 +9,7 @@ export const galleries = pgTable("galleries", {
     .primaryKey()
     .default(sql`gen_random_uuid()`),
 
-  organizationId: text("organization_id").references(() => organization.id),
+  organizationId: text("organization_id").references(() => organizations.id),
   type: varchar("type", { length: 50 }).notNull(),
   // enum-like: 'event', 'child', 'class', 'occasion', 'general'
 

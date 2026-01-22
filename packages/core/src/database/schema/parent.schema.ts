@@ -1,12 +1,12 @@
 import { sql } from "drizzle-orm";
 import { pgTable, text, timestamp } from "drizzle-orm/pg-core";
-import { organization } from "./auth.schema";
+import { organizations } from "./auth.schema";
 
 export const parents = pgTable("parent", {
   id: text("id")
     .primaryKey()
     .default(sql`gen_random_uuid()`),
-  organizationId: text("organization_id").references(() => organization.id),
+  organizationId: text("organization_id").references(() => organizations.id),
   userId: text("user_id"),
   childId: text("child_id").array(),
   name: text("name").notNull(),

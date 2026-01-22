@@ -1,6 +1,6 @@
 import { sql } from "drizzle-orm";
 import { pgTable, text, timestamp } from "drizzle-orm/pg-core";
-import { organization } from "./auth.schema";
+import { organizations } from "./auth.schema";
 
 // assuming you have a children schema
 // import { classes } from "./classes.schema"; // uncomment if you have classes table
@@ -19,7 +19,7 @@ export const event = pgTable("event", {
   galleryImagesUrl: text("gallery_images_url"),
   status: text("status"),
   organizer: text("organizer"),
-  organizationId: text("organization_id").references(() => organization.id),
+  organizationId: text("organization_id").references(() => organizations.id),
 
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),

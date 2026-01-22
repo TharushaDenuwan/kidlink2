@@ -6,7 +6,7 @@ import {
   timestamp,
   varchar,
 } from "drizzle-orm/pg-core";
-import { organization, user } from "./auth.schema";
+import { organizations, users } from "./auth.schema";
 
 // Import children table separately to avoid circular imports
 import { sql } from "drizzle-orm";
@@ -28,13 +28,13 @@ export const badges = pgTable("badges", {
     .primaryKey()
     .default(sql`gen_random_uuid()`),
 
-  organizationId: text("organization_id").references(() => organization.id),
+  organizationId: text("organization_id").references(() => organizations.id),
 
   // children.id is serial (integer)
   childId: text("child_id").references(() => childrens.id),
 
   // user.id is text in your auth schema; use text here (change to integer if your users table uses int IDs)
-  teacherId: text("teacher_id").references(() => user.id),
+  teacherId: text("teacher_id").references(() => users.id),
 
   title: varchar("title", { length: 255 }).notNull(),
   description: text("description"),

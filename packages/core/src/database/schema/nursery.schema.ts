@@ -1,7 +1,7 @@
 import { sql } from "drizzle-orm";
 import { pgTable, real, text } from "drizzle-orm/pg-core";
 import { timestamps } from "./helpers";
-import { organization, user } from "./auth.schema";
+import { organizations, users } from "./auth.schema";
 
 export const nurseries = pgTable("nurseries", {
   id: text("id")
@@ -9,11 +9,11 @@ export const nurseries = pgTable("nurseries", {
     .default(sql`gen_random_uuid()`),
 
   organizationId: text("organization_id")
-    .references(() => organization.id, { onDelete: "cascade" })
+    .references(() => organizations.id, { onDelete: "cascade" })
     .notNull(),
 
   createdBy: text("created_by")
-    .references(() => user.id, { onDelete: "set null" })
+    .references(() => users.id, { onDelete: "set null" })
     .notNull(),
 
   title: text("title").notNull(),

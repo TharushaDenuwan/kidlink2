@@ -1,6 +1,6 @@
 import { sql } from "drizzle-orm";
 import { pgTable, text, timestamp, varchar } from "drizzle-orm/pg-core";
-import { organization } from "./auth.schema";
+import { organizations } from "./auth.schema";
 import { childrens } from "./children.schema";
 import { classes } from "./classes.schema";
 import { teachers } from "./teacher.schema";
@@ -12,7 +12,7 @@ export const lessonPlans = pgTable("lesson_plans", {
     .primaryKey()
     .default(sql`gen_random_uuid()`),
 
-  organizationId: text("organization_id").references(() => organization.id),
+  organizationId: text("organization_id").references(() => organizations.id),
 
   title: varchar("title", { length: 255 }).notNull(),
 

@@ -3,14 +3,14 @@ import { pgTable, text, varchar } from "drizzle-orm/pg-core";
 
 import { date } from "drizzle-orm/pg-core";
 import { timestamps } from "./helpers";
-import { organization } from "./auth.schema";
+import { organizations } from "./auth.schema";
 
 export const childrens = pgTable("childrens", {
   id: text("id")
     .primaryKey()
     .default(sql`gen_random_uuid()`),
   name: varchar("name", { length: 255 }).notNull(),
-  organizationId: text("organization_id").references(() => organization.id),
+  organizationId: text("organization_id").references(() => organizations.id),
   nurseryId: text("nursery_id"),
   parentId: text("parent_id"),
   classId: text("class_id"),

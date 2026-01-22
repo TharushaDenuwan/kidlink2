@@ -14,9 +14,10 @@ export interface AuthConfigurations {
 export function configAuth(config: AuthConfigurations) {
   const baseAuthInstance = betterAuth({
     database: drizzleAdapter(config.database, {
+      
       provider: "pg",
       schema: authSchema,
-      usePlural: false
+      // usePlural: false
     }),
     secret: config.secret,
     plugins: [admin(), openAPI(),organization({

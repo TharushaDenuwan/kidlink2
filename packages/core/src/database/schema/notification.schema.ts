@@ -1,6 +1,6 @@
 import { sql } from "drizzle-orm";
 import { pgEnum, pgTable, text, timestamp } from "drizzle-orm/pg-core";
-import { organization } from "./auth.schema";
+import { organizations } from "./auth.schema";
 
 export const notificationStatusEnum = pgEnum("notification_status", [
   "event",
@@ -13,7 +13,7 @@ export const notifications = pgTable("notification", {
   id: text("id")
     .primaryKey()
     .default(sql`gen_random_uuid()`),
-  organizationId: text("organization_id").references(() => organization.id),
+  organizationId: text("organization_id").references(() => organizations.id),
   senderId: text("senderId").notNull(),
   receiverId: text("receiverId").array().notNull(),
   // userId: text("user_id")
