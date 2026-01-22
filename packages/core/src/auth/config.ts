@@ -16,7 +16,7 @@ export function configAuth(config: AuthConfigurations) {
     database: drizzleAdapter(config.database, {
       provider: "pg",
       schema: authSchema,
-      usePlural: true
+      usePlural: false
     }),
     secret: config.secret,
     plugins: [admin(), openAPI(),organization({
