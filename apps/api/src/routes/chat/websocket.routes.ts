@@ -1,13 +1,14 @@
-import { db } from "@api/db";
-import { createRouter } from "@api/lib/create-app";
+//import { db } from "@api/db";
+
+import { createAPIRouter } from "@/lib/setup-api";
 import { wsManager } from "@api/lib/websocket-manager";
 import { getServer, upgradeWebSocket } from "@api/lib/websocket-setup";
-import type { TypingEvent } from "@repo/database";
-import { user } from "@repo/database";
+import type { TypingEvent } from "core/database/schema";
+import { user } from "core/database/schema";
 import type { ServerWebSocket } from "bun";
 import { eq } from "drizzle-orm";
 
-const wsRouter = createRouter();
+const wsRouter = createAPIRouter();
 
 interface WSMessage {
   type: string;

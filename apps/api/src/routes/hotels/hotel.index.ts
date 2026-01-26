@@ -1,9 +1,9 @@
-import { createRouter } from "@api/lib/create-app";
+import { createAPIRouter } from "@/lib/setup-api";
 
 import * as handlers from "./hotel.handler";
 import * as routes from "./hotel.routes";
 
-const router = createRouter()
+const router = createAPIRouter()
   .openapi(routes.listAllHotelTypesRoute, handlers.listHotelTypesHandler)
   .openapi(routes.createNewHotelTypeRoute, handlers.createHotelTypeHandler)
   .openapi(routes.updateHotelTypeRoute, handlers.updateHotelTypeHandler)

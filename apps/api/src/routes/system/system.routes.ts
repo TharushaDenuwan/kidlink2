@@ -2,7 +2,7 @@ import { createRoute } from "@hono/zod-openapi";
 import * as HttpStatusCodes from "stoker/http-status-codes";
 import { jsonContent } from "stoker/openapi/helpers";
 
-import { errorMessageSchema } from "@api/lib/helpers";
+import { errorMessageSchema } from "core/zod";
 import { checkUserTypeSchema } from "./system.schema";
 
 const tags: string[] = ["System"];

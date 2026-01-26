@@ -3,9 +3,10 @@ import { eq } from "drizzle-orm";
 import * as HttpStatusCodes from "stoker/http-status-codes";
 import * as HttpStatusPhrases from "stoker/http-status-phrases";
 
-import { db } from "@api/db";
-import type { AppRouteHandler } from "@api/types";
-import { galleries } from "@repo/database";
+//import { db } from "@api/db";
+
+import type { APIRouteHandler } from "@/types";
+import { galleries } from "core/database/schema";
 
 import type {
   CreateRoute,
@@ -16,7 +17,8 @@ import type {
 } from "./gallery.routes";
 
 // 🔍 List all gallery
-export const list: AppRouteHandler<ListRoute> = async (c) => {
+export const list: APIRouteHandler<ListRoute> = async (c) => {
+const db = c.get("db");
   console.log("=== Gallery List API Called ===");
   const results = await db.select().from(galleries);
   console.log("Database results:", results);
@@ -43,10 +45,11 @@ export const list: AppRouteHandler<ListRoute> = async (c) => {
 };
 
 // Create new gallery
-export const create: AppRouteHandler<CreateRoute> = async (c) => {
+export const create: APIRouteHandler<CreateRoute> = async (c) => {
   console.log("=== Gallery Create API Called ===");
   const body = c.req.valid("json");
-  const session = c.get("session");
+ const session = c.get("session");
+const db = c.get("db");
   const user = c.get("user");
 
   console.log("Request body:", body);
@@ -80,7 +83,8 @@ export const create: AppRouteHandler<CreateRoute> = async (c) => {
 };
 
 // 🔍 Get a single gallery
-export const getOne: AppRouteHandler<GetByIdRoute> = async (c) => {
+export const getOne: APIRouteHandler<GetByIdRoute> = async (c) => {
+const db = c.get("db");
   const { id } = c.req.valid("param");
 
   const foundgallery = await db
@@ -100,10 +104,11 @@ export const getOne: AppRouteHandler<GetByIdRoute> = async (c) => {
 };
 
 // Update gallery
-export const patch: AppRouteHandler<UpdateRoute> = async (c) => {
+export const patch: APIRouteHandler<UpdateRoute> = async (c) => {
   const { id } = c.req.valid("param");
   const updates = c.req.valid("json");
   const session = c.get("user");
+  const db = c.get("db");
 
   if (!session) {
     return c.json(
@@ -132,8 +137,9 @@ export const patch: AppRouteHandler<UpdateRoute> = async (c) => {
 };
 
 //  Delete gallery
-export const remove: AppRouteHandler<RemoveRoute> = async (c) => {
+export const remove: APIRouteHandler<RemoveRoute> = async (c) => {
   const { id } = c.req.valid("param");
+  const db = c.get("db");
   const session = c.get("user") as { organizationId?: string } | undefined;
 
   if (!session) {

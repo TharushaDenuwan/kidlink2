@@ -1,13 +1,13 @@
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
 
-import { organization } from "@repo/database";
+import { organizations } from "core/database/schema";
 
 // Select schema for organization
-export const organizationSelectSchema = createSelectSchema(organization);
+export const organizationSelectSchema = createSelectSchema(organizations);
 
 // Insert schema (omit auto-generated fields)
-export const organizationInsertSchema = createInsertSchema(organization)
+export const organizationInsertSchema = createInsertSchema(organizations)
   .omit({
     id: true,
     createdAt: true,
@@ -15,7 +15,7 @@ export const organizationInsertSchema = createInsertSchema(organization)
   .transform((data) => ({ ...data }));
 
 // Update schema (partial, omit auto-generated fields)
-export const organizationUpdateSchema = createInsertSchema(organization)
+export const organizationUpdateSchema = createInsertSchema(organizations)
   .omit({
     id: true,
     createdAt: true,

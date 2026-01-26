@@ -2,18 +2,19 @@ import { eq } from "drizzle-orm";
 import * as HttpStatusCodes from "stoker/http-status-codes";
 import * as HttpStatusPhrases from "stoker/http-status-phrases";
 
-// import { db } from "@api/db";
+// //import { db } from "@api/db";
+
 import { APIRouteHandler } from "@/types";
-// import { badges } from "@repo/database";
+// import { badges } from "core/database/schema";
 
 import type { ListRoute } from "./badges.routes";
 import { badges } from "core/database/schema";
 
 // 🔍 List all badges with filtering by organization ID
 export const list: APIRouteHandler<ListRoute> = async (c) => {
-      const db = c.get("db");
+const db = c.get("db");
 
-  const session = c.get("session");
+ const session = c.get("session");
 
   if (!session?.activeOrganizationId) {
     return c.json(
@@ -69,7 +70,7 @@ export const create = async (c: any) => {
         const db = c.get("db");
 
   const body = c.req.valid("json");
-  const session = c.get("session");
+ const session = c.get("session");
 
   if (!session) {
     return c.json(

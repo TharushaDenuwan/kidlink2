@@ -8,7 +8,7 @@ import {
   getPaginatedSchema,
   queryParamsSchema,
   stringIdParamSchema
-} from "@api/lib/helpers";
+} from "core/zod";
 import {
   mediaSchema,
   mediaUpdateSchema,

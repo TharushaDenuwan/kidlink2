@@ -2,8 +2,9 @@ import { and, eq, inArray } from "drizzle-orm";
 import * as HttpStatusCodes from "stoker/http-status-codes";
 import * as HttpStatusPhrases from "stoker/http-status-phrases";
 
-import { db } from "@api/db";
-import type { AppRouteHandler } from "@api/types";
+// //import { db } from "@api/db";
+
+import type { APIRouteHandler } from "@/types";
 import {
   badges,
   childrens,
@@ -11,7 +12,7 @@ import {
   nurseries,
   parents,
   teachers,
-} from "@repo/database";
+} from "core/database/schema";
 
 import type {
   CreateRoute,
@@ -24,8 +25,10 @@ import type {
 } from "./children.routes";
 
 // 🔍 List all childrens with optional childId filter
-export const list: AppRouteHandler<ListRoute> = async (c) => {
-  const session = c.get("session");
+export const list: APIRouteHandler<ListRoute> = async (c) => {
+
+ const session = c.get("session");
+const db = c.get("db");
   const { childId } = c.req.valid("query");
 
   if (!session?.activeOrganizationId) {
@@ -71,9 +74,11 @@ export const list: AppRouteHandler<ListRoute> = async (c) => {
 };
 
 // Create new children
-export const create: AppRouteHandler<CreateRoute> = async (c) => {
+export const create: APIRouteHandler<CreateRoute> = async (c) => {
+        const db = c.get("db");
+
   const body = c.req.valid("json");
-  const session = c.get("session");
+ const session = c.get("session");
 
   if (!session) {
     return c.json(
@@ -95,7 +100,9 @@ export const create: AppRouteHandler<CreateRoute> = async (c) => {
 };
 
 // 🔍 Get a single children
-export const getOne: AppRouteHandler<GetByIdRoute> = async (c) => {
+export const getOne: APIRouteHandler<GetByIdRoute> = async (c) => {
+  const db = c.get("db");
+
   const { id } = c.req.valid("param");
 
   const children = await db.query.childrens.findFirst({
@@ -113,7 +120,9 @@ export const getOne: AppRouteHandler<GetByIdRoute> = async (c) => {
 };
 
 // Update children
-export const patch: AppRouteHandler<UpdateRoute> = async (c) => {
+export const patch: APIRouteHandler<UpdateRoute> = async (c) => {
+        const db = c.get("db");
+
   const { id } = c.req.valid("param");
   const updates = c.req.valid("json");
   const session = c.get("user");
@@ -145,7 +154,9 @@ export const patch: AppRouteHandler<UpdateRoute> = async (c) => {
 };
 
 //  Delete children
-export const remove: AppRouteHandler<RemoveRoute> = async (c) => {
+export const remove: APIRouteHandler<RemoveRoute> = async (c) => {
+        const db = c.get("db");
+
   const { id } = c.req.valid("param");
   const session = c.get("user") as { organizationId?: string } | undefined;
 
@@ -172,7 +183,9 @@ export const remove: AppRouteHandler<RemoveRoute> = async (c) => {
 };
 
 // 🔍 Get children by parent ID
-export const getByParentId: AppRouteHandler<GetByParentIdRoute> = async (c) => {
+export const getByParentId: APIRouteHandler<GetByParentIdRoute> = async (c) => {
+        const db = c.get("db");
+
   const { parentId } = c.req.valid("param");
 
   // Fetch children filtered by parent ID
@@ -200,10 +213,13 @@ export const getByParentId: AppRouteHandler<GetByParentIdRoute> = async (c) => {
 };
 
 // 🔍 List all children with populated objects and optional childId filter
-export const listWithObjects: AppRouteHandler<ListWithObjectsRoute> = async (
+export const listWithObjects: APIRouteHandler<ListWithObjectsRoute> = async (
+
   c
 ) => {
-  const session = c.get("session");
+
+ const session = c.get("session");
+const db = c.get("db");
   const { childId } = c.req.valid("query");
 
   if (!session?.activeOrganizationId) {

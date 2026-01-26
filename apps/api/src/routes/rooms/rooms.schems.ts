@@ -1,7 +1,7 @@
 import { createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
 
-import { roomTypes, rooms } from "@repo/database";
+import { roomTypes, rooms } from "core/database/schema";
 
 // Room Type Schemas
 export const roomTypeSchema = createSelectSchema(roomTypes);

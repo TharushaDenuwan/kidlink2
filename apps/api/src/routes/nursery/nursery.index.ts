@@ -1,9 +1,9 @@
-import { createRouter } from "@api/lib/create-app";
+import { createAPIRouter } from "@/lib/setup-api";
 
 import * as handlers from "./nursery.handlers";
 import * as routes from "./nursery.routes";
 
-const router = createRouter()
+const router = createAPIRouter()
   .openapi(routes.getMyNursery, handlers.getMyNursery)
   .openapi(routes.list, handlers.list)
 

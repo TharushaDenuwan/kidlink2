@@ -3,9 +3,10 @@ import { eq, sql } from "drizzle-orm";
 import * as HttpStatusCodes from "stoker/http-status-codes";
 import * as HttpStatusPhrases from "stoker/http-status-phrases";
 
-import { db } from "@api/db";
-import type { AppRouteHandler } from "@api/types";
-import { user } from "@repo/database";
+//import { db } from "@api/db";
+
+import type { APIRouteHandler } from "@/types";
+import { users } from "core/database/schema";
 
 import type {
   CountRoute,
@@ -15,8 +16,9 @@ import type {
 } from "./user.routes";
 
 // List all users
-export const list: AppRouteHandler<ListRoute> = async (c) => {
-  const results = await db.query.user.findMany();
+export const list: APIRouteHandler<ListRoute> = async (c) => {
+const db = c.get("db");
+  const results = await db.query.users.findMany();
 
   // Simple meta scaffold; wire real pagination later
   const page = 1;
@@ -39,10 +41,11 @@ export const list: AppRouteHandler<ListRoute> = async (c) => {
 };
 
 // Get user by ID
-export const getOne: AppRouteHandler<GetByIdRoute> = async (c) => {
+export const getOne: APIRouteHandler<GetByIdRoute> = async (c) => {
+const db = c.get("db");
   const { id } = c.req.valid("param");
-  const userRow = await db.query.user.findFirst({
-    where: eq(user.id, String(id)),
+  const userRow = await db.query.users.findFirst({
+    where: eq(users.id, String(id)),
   });
   if (!userRow) {
     return c.json(
@@ -54,24 +57,26 @@ export const getOne: AppRouteHandler<GetByIdRoute> = async (c) => {
 };
 
 // Get total user count
-export const count: AppRouteHandler<CountRoute> = async (c) => {
+export const count: APIRouteHandler<CountRoute> = async (c) => {
+  const db = c.get("db");
   // drizzle-orm count(*)
   const [{ count } = { count: 0 }] = await db
     .select({ count: sql<number>`count(*)` })
-    .from(user);
+    .from(users);
 
   return c.json({ count: Number(count ?? 0) }, HttpStatusCodes.OK);
 };
 
 // Update user by ID
-export const updateUser: AppRouteHandler<UpdateUserRoute> = async (c) => {
+export const updateUser: APIRouteHandler<UpdateUserRoute> = async (c) => {
   const { id } = c.req.valid("param");
   const updateData = c.req.valid("body");
+  const db = c.get("db");
 
   const updatedUser = await db
-    .update(user)
+    .update(users)
     .set(updateData)
-    .where(eq(user.id, String(id)))
+    .where(eq(users.id, String(id)))
     .returning();
 
   if (!updatedUser.length) {

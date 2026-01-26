@@ -2,11 +2,12 @@ import { eq } from "drizzle-orm";
 import * as HttpStatusCodes from "stoker/http-status-codes";
 import * as HttpStatusPhrases from "stoker/http-status-phrases";
 
-import type { AppRouteHandler } from "@api/types";
+import type { APIRouteHandler } from "@/types";
 
-import { db } from "@api/db";
+//import { db } from "@api/db";
+
 import { toKebabCase } from "@api/lib/helpers";
-import { propertyClasses } from "@repo/database";
+import { propertyClasses } from "core/database/schema";
 import type {
   CreatePropertyClassRoute,
   ListPropertyClassesRoute,
@@ -15,7 +16,7 @@ import type {
 } from "./property-classes.routes";
 
 // List property classes route handler
-export const listPropertyClassesHandler: AppRouteHandler<
+export const listPropertyClassesHandler: APIRouteHandler<
   ListPropertyClassesRoute
 > = async (c) => {
   const allPropertyClasses = await db.query.propertyClasses.findMany({});
@@ -24,11 +25,12 @@ export const listPropertyClassesHandler: AppRouteHandler<
 };
 
 // Create proerty class route handler
-export const createPropertyClassHandler: AppRouteHandler<
+export const createPropertyClassHandler: APIRouteHandler<
   CreatePropertyClassRoute
 > = async (c) => {
   const body = c.req.valid("json");
-  const session = c.get("session");
+ const session = c.get("session");
+const db = c.get("db");
   const user = c.get("user");
 
   if (!session || !user) {
@@ -67,12 +69,13 @@ export const createPropertyClassHandler: AppRouteHandler<
 };
 
 // Update Property Class
-export const updatePropertyClassHandler: AppRouteHandler<
+export const updatePropertyClassHandler: APIRouteHandler<
   UpdatePropertyClassRoute
 > = async (c) => {
   const params = c.req.valid("param");
   const body = c.req.valid("json");
-  const session = c.get("session");
+ const session = c.get("session");
+const db = c.get("db");
   const user = c.get("user");
 
   if (!session || !user) {
@@ -110,11 +113,12 @@ export const updatePropertyClassHandler: AppRouteHandler<
 };
 
 // Delete Handler
-export const removePropertyClassHandler: AppRouteHandler<
+export const removePropertyClassHandler: APIRouteHandler<
   RemovePropertyClassRoute
 > = async (c) => {
   const params = c.req.valid("param");
-  const session = c.get("session");
+ const session = c.get("session");
+const db = c.get("db");
   const user = c.get("user");
 
   if (!session || !user) {

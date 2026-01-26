@@ -3,11 +3,12 @@ import { and, desc, eq, ilike, sql } from "drizzle-orm";
 import * as HttpStatusCodes from "stoker/http-status-codes";
 import * as HttpStatusPhrases from "stoker/http-status-phrases";
 
-import type { AppRouteHandler } from "@api/types";
+import type { APIRouteHandler } from "@/types";
 
-import { db } from "@api/db";
+//import { db } from "@api/db";
+
 import { toKebabCase } from "@api/lib/helpers";
-import { hotels, hotelTypes, member } from "@repo/database";
+import { hotels, hotelTypes, member } from "core/database/schema";
 import { PropertyClass } from "../property-classes/property-classes.schema";
 import type {
   CreateHotelTypeRoute,
@@ -26,7 +27,7 @@ import { HotelSelectType, HotelType } from "./hotel.schema";
  * ================================================================
  */
 // List hotel types route handler
-export const listHotelTypesHandler: AppRouteHandler<
+export const listHotelTypesHandler: APIRouteHandler<
   ListHotelTypesRoute
 > = async (c) => {
   const allHotelTypes = await db.query.hotelTypes.findMany({});
@@ -35,11 +36,12 @@ export const listHotelTypesHandler: AppRouteHandler<
 };
 
 // Create hotel type route handler
-export const createHotelTypeHandler: AppRouteHandler<
+export const createHotelTypeHandler: APIRouteHandler<
   CreateHotelTypeRoute
 > = async (c) => {
   const body = c.req.valid("json");
-  const session = c.get("session");
+ const session = c.get("session");
+const db = c.get("db");
   const user = c.get("user");
 
   if (!session || !user) {
@@ -78,12 +80,13 @@ export const createHotelTypeHandler: AppRouteHandler<
 };
 
 // Update hotel type route handler
-export const updateHotelTypeHandler: AppRouteHandler<
+export const updateHotelTypeHandler: APIRouteHandler<
   UpdateHotelTypeRoute
 > = async (c) => {
   const params = c.req.valid("param");
   const body = c.req.valid("json");
-  const session = c.get("session");
+ const session = c.get("session");
+const db = c.get("db");
   const user = c.get("user");
 
   if (!session || !user) {
@@ -121,11 +124,12 @@ export const updateHotelTypeHandler: AppRouteHandler<
 };
 
 // Delete hotel type Handler
-export const removeHotelTypeHandler: AppRouteHandler<
+export const removeHotelTypeHandler: APIRouteHandler<
   RemoveHotelTypeRoute
 > = async (c) => {
   const params = c.req.valid("param");
-  const session = c.get("session");
+ const session = c.get("session");
+const db = c.get("db");
   const user = c.get("user");
 
   if (!session || !user) {
@@ -171,7 +175,7 @@ export const removeHotelTypeHandler: AppRouteHandler<
  */
 
 // List all hotels route handler
-export const listAllHotelsHandler: AppRouteHandler<ListAllHotelsRoute> = async (
+export const listAllHotelsHandler: APIRouteHandler<ListAllHotelsRoute> = async (
   c
 ) => {
   const {
@@ -314,11 +318,12 @@ export const listAllHotelsHandler: AppRouteHandler<ListAllHotelsRoute> = async (
 };
 
 // Create new hotel route handler
-export const createNewHotelHandler: AppRouteHandler<
+export const createNewHotelHandler: APIRouteHandler<
   CreateNewHotelRoute
 > = async (c) => {
   const body = c.req.valid("json");
-  const session = c.get("session");
+ const session = c.get("session");
+const db = c.get("db");
   const user = c.get("user");
 
   if (!session || !user) {
@@ -384,10 +389,11 @@ export const createNewHotelHandler: AppRouteHandler<
 };
 
 // Get my hotel route handler
-export const getMyHotelHandler: AppRouteHandler<GetMyHotelRoute> = async (
+export const getMyHotelHandler: APIRouteHandler<GetMyHotelRoute> = async (
   c
 ) => {
-  const session = c.get("session");
+ const session = c.get("session");
+const db = c.get("db");
   const user = c.get("user");
   let activeOrganizationId = session?.activeOrganizationId;
 

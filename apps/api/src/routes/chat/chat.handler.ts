@@ -1,10 +1,11 @@
 import { and, count, desc, eq, ilike, or, sql } from "drizzle-orm";
 import * as HttpStatusCodes from "stoker/http-status-codes";
 
-import { db } from "@api/db";
+//import { db } from "@api/db";
+
 import { wsManager } from "@api/lib/websocket-manager";
 import { getServer } from "@api/lib/websocket-setup";
-import type { AppRouteHandler } from "@api/types";
+import type { APIRouteHandler } from "@/types";
 
 import {
   chatParticipants,
@@ -14,7 +15,7 @@ import {
   user,
   type ChatMessageEvent,
   type MessageType
-} from "@repo/database";
+} from "core/database/schema";
 
 import type {
   CreateDirectChatRoute,
@@ -36,8 +37,9 @@ import type {
  */
 
 // List all chats for the authenticated user
-export const listChatsHandler: AppRouteHandler<ListChatsRoute> = async (c) => {
-  const session = c.get("session");
+export const listChatsHandler: APIRouteHandler<ListChatsRoute> = async (c) => {
+ const session = c.get("session");
+const db = c.get("db");
   if (!session) {
     return c.json({ message: "Unauthorized" }, HttpStatusCodes.UNAUTHORIZED);
   }
@@ -175,13 +177,14 @@ export const listChatsHandler: AppRouteHandler<ListChatsRoute> = async (c) => {
 };
 
 // Get a specific chat
-export const getChatHandler: AppRouteHandler<GetChatRoute> = async (c) => {
-  const session = c.get("session");
+export const getChatHandler: APIRouteHandler<GetChatRoute> = async (c) => {
+ const session = c.get("session");
+const db = c.get("db");
   if (!session) {
     return c.json(
       { message: "Unauthorized" },
       HttpStatusCodes.UNAUTHORIZED
-    ) as ReturnType<AppRouteHandler<GetChatRoute>>;
+    ) as ReturnType<APIRouteHandler<GetChatRoute>>;
   }
 
   const { id: chatId } = c.req.valid("param");
@@ -203,7 +206,7 @@ export const getChatHandler: AppRouteHandler<GetChatRoute> = async (c) => {
       return c.json(
         { message: "Chat not found or access denied" },
         HttpStatusCodes.NOT_FOUND
-      ) as ReturnType<AppRouteHandler<GetChatRoute>>;
+      ) as ReturnType<APIRouteHandler<GetChatRoute>>;
     }
 
     // Get chat details
@@ -217,7 +220,7 @@ export const getChatHandler: AppRouteHandler<GetChatRoute> = async (c) => {
       return c.json(
         { message: "Chat not found" },
         HttpStatusCodes.NOT_FOUND
-      ) as ReturnType<AppRouteHandler<GetChatRoute>>;
+      ) as ReturnType<APIRouteHandler<GetChatRoute>>;
     }
 
     // Get all participants
@@ -318,15 +321,16 @@ export const getChatHandler: AppRouteHandler<GetChatRoute> = async (c) => {
     return c.json(
       { message: "Internal server error" },
       HttpStatusCodes.INTERNAL_SERVER_ERROR
-    ) as ReturnType<AppRouteHandler<GetChatRoute>>;
+    ) as ReturnType<APIRouteHandler<GetChatRoute>>;
   }
 };
 
 // Create a direct chat
-export const createDirectChatHandler: AppRouteHandler<
+export const createDirectChatHandler: APIRouteHandler<
   CreateDirectChatRoute
 > = async (c) => {
-  const session = c.get("session");
+ const session = c.get("session");
+const db = c.get("db");
   if (!session) {
     return c.json({ message: "Unauthorized" }, HttpStatusCodes.UNAUTHORIZED);
   }
@@ -426,10 +430,11 @@ export const createDirectChatHandler: AppRouteHandler<
 };
 
 // Create a group chat
-export const createGroupChatHandler: AppRouteHandler<
+export const createGroupChatHandler: APIRouteHandler<
   CreateGroupChatRoute
 > = async (c) => {
-  const session = c.get("session");
+ const session = c.get("session");
+const db = c.get("db");
   if (!session) {
     return c.json({ message: "Unauthorized" }, HttpStatusCodes.UNAUTHORIZED);
   }
@@ -517,15 +522,16 @@ export const createGroupChatHandler: AppRouteHandler<
  */
 
 // Get messages for a chat
-export const getMessagesHandler: AppRouteHandler<GetMessagesRoute> = async (
+export const getMessagesHandler: APIRouteHandler<GetMessagesRoute> = async (
   c
 ) => {
-  const session = c.get("session");
+ const session = c.get("session");
+const db = c.get("db");
   if (!session) {
     return c.json(
       { message: "Unauthorized" },
       HttpStatusCodes.UNAUTHORIZED
-    ) as ReturnType<AppRouteHandler<GetMessagesRoute>>;
+    ) as ReturnType<APIRouteHandler<GetMessagesRoute>>;
   }
 
   const { id: chatId } = c.req.valid("param");
@@ -548,7 +554,7 @@ export const getMessagesHandler: AppRouteHandler<GetMessagesRoute> = async (
       return c.json(
         { message: "Chat not found or access denied" },
         HttpStatusCodes.NOT_FOUND
-      ) as ReturnType<AppRouteHandler<GetMessagesRoute>>;
+      ) as ReturnType<APIRouteHandler<GetMessagesRoute>>;
     }
 
     const pageNum = Math.max(1, parseInt(page));
@@ -678,15 +684,16 @@ export const getMessagesHandler: AppRouteHandler<GetMessagesRoute> = async (
     return c.json(
       { message: "Internal server error" },
       HttpStatusCodes.INTERNAL_SERVER_ERROR
-    ) as ReturnType<AppRouteHandler<GetMessagesRoute>>;
+    ) as ReturnType<APIRouteHandler<GetMessagesRoute>>;
   }
 };
 
 // Send a message
-export const sendMessageHandler: AppRouteHandler<SendMessageRoute> = async (
+export const sendMessageHandler: APIRouteHandler<SendMessageRoute> = async (
   c
 ) => {
-  const session = c.get("session");
+ const session = c.get("session");
+const db = c.get("db");
   if (!session) {
     return c.json({ message: "Unauthorized" }, HttpStatusCodes.UNAUTHORIZED);
   }
@@ -810,8 +817,9 @@ export const sendMessageHandler: AppRouteHandler<SendMessageRoute> = async (
  */
 
 // Join chat room (WebSocket connection)
-export const joinChatHandler: AppRouteHandler<JoinChatRoute> = async (c) => {
-  const session = c.get("session");
+export const joinChatHandler: APIRouteHandler<JoinChatRoute> = async (c) => {
+ const session = c.get("session");
+const db = c.get("db");
   if (!session) {
     return c.json({ message: "Unauthorized" }, HttpStatusCodes.UNAUTHORIZED);
   }
@@ -852,8 +860,9 @@ export const joinChatHandler: AppRouteHandler<JoinChatRoute> = async (c) => {
 };
 
 // Leave chat room
-export const leaveChatHandler: AppRouteHandler<LeaveChatRoute> = async (c) => {
-  const session = c.get("session");
+export const leaveChatHandler: APIRouteHandler<LeaveChatRoute> = async (c) => {
+ const session = c.get("session");
+const db = c.get("db");
   if (!session) {
     return c.json({ message: "Unauthorized" }, HttpStatusCodes.UNAUTHORIZED);
   }
@@ -875,10 +884,11 @@ export const leaveChatHandler: AppRouteHandler<LeaveChatRoute> = async (c) => {
 };
 
 // Update message (edit)
-export const updateMessageHandler: AppRouteHandler<UpdateMessageRoute> = async (
+export const updateMessageHandler: APIRouteHandler<UpdateMessageRoute> = async (
   c
 ) => {
-  const session = c.get("session");
+ const session = c.get("session");
+const db = c.get("db");
   if (!session) {
     return c.json({ message: "Unauthorized" }, HttpStatusCodes.UNAUTHORIZED);
   }
@@ -924,10 +934,11 @@ export const updateMessageHandler: AppRouteHandler<UpdateMessageRoute> = async (
 };
 
 // Delete message
-export const deleteMessageHandler: AppRouteHandler<DeleteMessageRoute> = async (
+export const deleteMessageHandler: APIRouteHandler<DeleteMessageRoute> = async (
   c
 ) => {
-  const session = c.get("session");
+ const session = c.get("session");
+const db = c.get("db");
   if (!session) {
     return c.json({ message: "Unauthorized" }, HttpStatusCodes.UNAUTHORIZED);
   }

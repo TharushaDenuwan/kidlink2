@@ -2,9 +2,11 @@ import { eq } from "drizzle-orm";
 import * as HttpStatusCodes from "stoker/http-status-codes";
 import * as HttpStatusPhrases from "stoker/http-status-phrases";
 
-import { db } from "@api/db";
-import type { AppRouteHandler } from "@api/types";
-import { classes } from "@repo/database";
+// //import { db } from "@api/db";
+
+import type { APIRouteHandler } from "@/types";
+// import { classes } from "core/database/schema";
+import { classes } from "core/database/schema";
 
 import type {
   CreateRoute,
@@ -15,7 +17,9 @@ import type {
 } from "./classes.routes";
 
 // 🔍 List all classes
-export const list: AppRouteHandler<ListRoute> = async (c) => {
+export const list: APIRouteHandler<ListRoute> = async (c) => {
+  const db = c.get("db");
+
   const results = await db.query.classes.findMany({});
   const page = 1; // or from query params
   const limit = results.length; // or from query params
@@ -37,9 +41,10 @@ export const list: AppRouteHandler<ListRoute> = async (c) => {
 };
 
 // Create new classes
-export const create: AppRouteHandler<CreateRoute> = async (c) => {
+export const create: APIRouteHandler<CreateRoute> = async (c) => {
+  const db = c.get("db");
   const body = c.req.valid("json");
-  const session = c.get("session");
+ const session = c.get("session");
 
   if (!session) {
     return c.json(
@@ -61,7 +66,8 @@ export const create: AppRouteHandler<CreateRoute> = async (c) => {
 };
 
 // 🔍 Get a single classes
-export const getOne: AppRouteHandler<GetByIdRoute> = async (c) => {
+export const getOne: APIRouteHandler<GetByIdRoute> = async (c) => {
+const db = c.get("db");
   const { id } = c.req.valid("param");
 
   const classItem = await db.query.classes.findFirst({
@@ -79,7 +85,8 @@ export const getOne: AppRouteHandler<GetByIdRoute> = async (c) => {
 };
 
 // Update classes
-export const patch: AppRouteHandler<UpdateRoute> = async (c) => {
+export const patch: APIRouteHandler<UpdateRoute> = async (c) => {
+  const db = c.get("db");
   const { id } = c.req.valid("param");
   const updates = c.req.valid("json");
   const session = c.get("user");
@@ -111,7 +118,8 @@ export const patch: AppRouteHandler<UpdateRoute> = async (c) => {
 };
 
 //  Delete classes
-export const remove: AppRouteHandler<RemoveRoute> = async (c) => {
+export const remove: APIRouteHandler<RemoveRoute> = async (c) => {
+  const db = c.get("db");
   const { id } = c.req.valid("param");
   const session = c.get("user") as { organizationId?: string } | undefined;
 

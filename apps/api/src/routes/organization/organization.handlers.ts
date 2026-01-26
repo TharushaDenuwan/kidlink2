@@ -3,9 +3,10 @@ import { eq } from "drizzle-orm";
 import * as HttpStatusCodes from "stoker/http-status-codes";
 import * as HttpStatusPhrases from "stoker/http-status-phrases";
 
-import { db } from "@api/db";
-import type { AppRouteHandler } from "@api/types";
-import { organization } from "@repo/database";
+//import { db } from "@api/db";
+
+import type { APIRouteHandler } from "@/types";
+import { organizations } from "core/database/schema";
 
 import type {
   CreateRoute,
@@ -16,8 +17,9 @@ import type {
 } from "./organization.routes";
 
 // 🔍 List all organizations
-export const list: AppRouteHandler<ListRoute> = async (c) => {
-  const results = await db.query.organization.findMany({});
+export const list: APIRouteHandler<ListRoute> = async (c) => {
+const db = c.get("db");
+  const results = await db.query.organizations.findMany({});
   const page = 1; // or from query params
   const limit = results.length; // or from query params
   const totalCount = results.length;
@@ -38,11 +40,12 @@ export const list: AppRouteHandler<ListRoute> = async (c) => {
 };
 
 // Create new organization
-export const create: AppRouteHandler<CreateRoute> = async (c) => {
+export const create: APIRouteHandler<CreateRoute> = async (c) => {
   const body = c.req.valid("json");
+  const db = c.get("db");
 
   const [inserted] = await db
-    .insert(organization)
+    .insert(organizations)
     .values({
       ...body,
       id: randomUUID(),
@@ -54,11 +57,12 @@ export const create: AppRouteHandler<CreateRoute> = async (c) => {
 };
 
 // 🔍 Get a single organization
-export const getOne: AppRouteHandler<GetByIdRoute> = async (c) => {
+export const getOne: APIRouteHandler<GetByIdRoute> = async (c) => {
+const db = c.get("db");
   const { id } = c.req.valid("param");
 
-  const org = await db.query.organization.findFirst({
-    where: eq(organization.id, String(id)),
+  const org = await db.query.organizations.findFirst({
+    where: eq(organizations.id, String(id)),
   });
 
   if (!org) {
@@ -72,14 +76,15 @@ export const getOne: AppRouteHandler<GetByIdRoute> = async (c) => {
 };
 
 // Update organization
-export const patch: AppRouteHandler<UpdateRoute> = async (c) => {
+export const patch: APIRouteHandler<UpdateRoute> = async (c) => {
   const { id } = c.req.valid("param");
   const updates = c.req.valid("json");
+  const db = c.get("db");
 
   const [updated] = await db
-    .update(organization)
+    .update(organizations)
     .set(updates)
-    .where(eq(organization.id, String(id)))
+    .where(eq(organizations.id, String(id)))
     .returning();
 
   if (!updated) {
@@ -93,12 +98,12 @@ export const patch: AppRouteHandler<UpdateRoute> = async (c) => {
 };
 
 //  Delete organization
-export const remove: AppRouteHandler<RemoveRoute> = async (c) => {
+export const remove: APIRouteHandler<RemoveRoute> = async (c) => {
   const { id } = c.req.valid("param");
-
+  const db = c.get("db");
   const [deleted] = await db
-    .delete(organization)
-    .where(eq(organization.id, String(id)))
+    .delete(organizations)
+    .where(eq(organizations.id, String(id)))
     .returning();
 
   if (!deleted) {

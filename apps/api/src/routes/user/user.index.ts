@@ -1,10 +1,10 @@
 // user.router.ts
-import { createRouter } from "@api/lib/create-app";
+import { createAPIRouter } from "@/lib/setup-api";
 
 import * as handlers from "./user.handlers";
 import * as routes from "./user.routes";
 
-const router = createRouter()
+const router = createAPIRouter()
   .openapi(routes.updateUser, handlers.updateUser)
   .openapi(routes.list, handlers.list)
   // Register static route before the dynamic '/:id' to avoid collisions with '/count'

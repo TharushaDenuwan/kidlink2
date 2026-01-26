@@ -2,9 +2,10 @@ import { eq } from "drizzle-orm";
 import * as HttpStatusCodes from "stoker/http-status-codes";
 import * as HttpStatusPhrases from "stoker/http-status-phrases";
 
-import { db } from "@api/db";
-import type { AppRouteHandler } from "@api/types";
-import { teachers } from "@repo/database";
+//import { db } from "@api/db";
+
+import type { APIRouteHandler } from "@/types";
+import { teachers } from "core/database/schema";
 
 import type {
   CreateRoute,
@@ -16,8 +17,9 @@ import type {
 } from "./teacher.routes";
 
 // 🔍 List all teachers with filtering by organization ID
-export const list: AppRouteHandler<ListRoute> = async (c) => {
-  const session = c.get("session");
+export const list: APIRouteHandler<ListRoute> = async (c) => {
+const db = c.get("db");
+ const session = c.get("session");
 
   if (!session?.activeOrganizationId) {
     return c.json(
@@ -53,9 +55,10 @@ export const list: AppRouteHandler<ListRoute> = async (c) => {
 };
 
 // Create new teacher
-export const create: AppRouteHandler<CreateRoute> = async (c) => {
+export const create: APIRouteHandler<CreateRoute> = async (c) => {
   const body = c.req.valid("json");
-  const session = c.get("session");
+ const session = c.get("session");
+const db = c.get("db");
 
   if (!session) {
     return c.json(
@@ -78,7 +81,8 @@ export const create: AppRouteHandler<CreateRoute> = async (c) => {
 };
 
 // 🔍 Get a single teacher
-export const getOne: AppRouteHandler<GetByIdRoute> = async (c) => {
+export const getOne: APIRouteHandler<GetByIdRoute> = async (c) => {
+const db = c.get("db");
   const { id } = c.req.valid("param");
 
   const teacher = await db.query.teachers.findFirst({
@@ -96,10 +100,11 @@ export const getOne: AppRouteHandler<GetByIdRoute> = async (c) => {
 };
 
 // Update teacher
-export const patch: AppRouteHandler<UpdateRoute> = async (c) => {
+export const patch: APIRouteHandler<UpdateRoute> = async (c) => {
   const { id } = c.req.valid("param");
   const updates = c.req.valid("json");
   const session = c.get("user");
+  const db = c.get("db");
 
   if (!session) {
     return c.json(
@@ -128,9 +133,10 @@ export const patch: AppRouteHandler<UpdateRoute> = async (c) => {
 };
 
 //  Delete teacher
-export const remove: AppRouteHandler<RemoveRoute> = async (c) => {
+export const remove: APIRouteHandler<RemoveRoute> = async (c) => {
   const { id } = c.req.valid("param");
   const session = c.get("user") as { organizationId?: string } | undefined;
+  const db = c.get("db");
 
   if (!session) {
     return c.json(
@@ -155,8 +161,9 @@ export const remove: AppRouteHandler<RemoveRoute> = async (c) => {
 };
 
 // 🔍 Get teachers by userId
-export const getByUserId: AppRouteHandler<GetByUserIdRoute> = async (c) => {
+export const getByUserId: APIRouteHandler<GetByUserIdRoute> = async (c) => {
   const { userId } = c.req.valid("param");
+  const db = c.get("db");
 
   // Fetch teachers filtered by userId
   const results = await db.query.teachers.findMany({

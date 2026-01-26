@@ -2,10 +2,11 @@ import { desc, eq } from "drizzle-orm";
 import * as HttpStatusCodes from "stoker/http-status-codes";
 import * as HttpStatusPhrases from "stoker/http-status-phrases";
 
-import type { AppRouteHandler } from "@api/types";
+import type { APIRouteHandler } from "@/types";
 
-import { db } from "@api/db";
-import { tasks } from "@repo/database/schemas";
+//import { db } from "@api/db";
+
+import { tasks } from "core/database/schema";
 
 import type {
   CreateRoute,
@@ -16,7 +17,8 @@ import type {
 } from "./tasks.routes";
 
 // List tasks route handler
-export const list: AppRouteHandler<ListRoute> = async (c) => {
+export const list: APIRouteHandler<ListRoute> = async (c) => {
+const db = c.get("db");
   const tasks = await db.query.tasks.findMany({
     orderBy(fields) {
       return desc(fields.createdAt);
@@ -27,9 +29,10 @@ export const list: AppRouteHandler<ListRoute> = async (c) => {
 };
 
 // Create new task route handler
-export const create: AppRouteHandler<CreateRoute> = async (c) => {
+export const create: APIRouteHandler<CreateRoute> = async (c) => {
   const task = c.req.valid("json");
   const session = c.get("user");
+  const db = c.get("db");
 
   if (!session) {
     return c.json(
@@ -44,8 +47,10 @@ export const create: AppRouteHandler<CreateRoute> = async (c) => {
 };
 
 // Get single task route handler
-export const getOne: AppRouteHandler<GetOneRoute> = async (c) => {
+export const getOne: APIRouteHandler<GetOneRoute> = async (c) => {
   const { id } = c.req.valid("param");
+  const session = c.get("user");
+  const db = c.get("db");
 
   const task = await db.query.tasks.findFirst({
     where: eq(tasks.id, id)
@@ -61,10 +66,11 @@ export const getOne: AppRouteHandler<GetOneRoute> = async (c) => {
 };
 
 // Update task route handler
-export const patch: AppRouteHandler<PatchRoute> = async (c) => {
+export const patch: APIRouteHandler<PatchRoute> = async (c) => {
   const { id } = c.req.valid("param");
   const updates = c.req.valid("json");
   const session = c.get("user");
+  const db = c.get("db");
 
   if (!session) {
     return c.json(
@@ -95,9 +101,10 @@ export const patch: AppRouteHandler<PatchRoute> = async (c) => {
 };
 
 // Remove task route handler
-export const remove: AppRouteHandler<RemoveRoute> = async (c) => {
+export const remove: APIRouteHandler<RemoveRoute> = async (c) => {
   const { id } = c.req.valid("param");
   const session = c.get("user");
+  const db = c.get("db");
 
   if (!session) {
     return c.json(

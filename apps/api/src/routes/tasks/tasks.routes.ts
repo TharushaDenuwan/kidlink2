@@ -3,7 +3,7 @@ import * as HttpStatusCodes from "stoker/http-status-codes";
 import { jsonContent, jsonContentRequired } from "stoker/openapi/helpers";
 import { IdParamsSchema } from "stoker/openapi/schemas";
 
-import { errorMessageSchema } from "@api/lib/helpers";
+import { errorMessageSchema } from "core/zod";
 import {
   insertTaskSchema,
   selectTaskSchema,

@@ -1,7 +1,7 @@
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
 
-import { propertyClasses } from "@repo/database";
+import { propertyClasses } from "core/database/schema";
 
 // Property Class Schemas
 export const propertyClassSchema = createSelectSchema(propertyClasses);

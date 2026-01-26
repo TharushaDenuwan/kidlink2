@@ -2,9 +2,10 @@ import { and, eq } from "drizzle-orm";
 import * as HttpStatusCodes from "stoker/http-status-codes";
 import * as HttpStatusPhrases from "stoker/http-status-phrases";
 
-import { db } from "@api/db";
-import type { AppRouteHandler } from "@api/types";
-import { nurseries } from "@repo/database";
+//import { db } from "@api/db";
+
+import type { APIRouteHandler } from "@/types";
+import { nurseries } from "core/database/schema";
 
 import type {
   CreateRoute,
@@ -22,7 +23,8 @@ type Session = {
 };
 
 // 🔍 List ONLY nurseries created by the logged-in user (optionally scoped by org)
-export const list: AppRouteHandler<ListRoute> = async (c) => {
+export const list: APIRouteHandler<ListRoute> = async (c) => {
+const db = c.get("db");
   const session = c.get("session") as Session | undefined;
 
   if (!session?.userId) {
@@ -59,7 +61,7 @@ export const list: AppRouteHandler<ListRoute> = async (c) => {
 };
 
 // ➕ Create new nursery (owned by current user/org)
-export const create: AppRouteHandler<CreateRoute> = async (c) => {
+export const create: APIRouteHandler<CreateRoute> = async (c) => {
   const body = c.req.valid("json");
   const session = c.get("session") as Session | undefined;
 
@@ -87,7 +89,8 @@ export const create: AppRouteHandler<CreateRoute> = async (c) => {
 };
 
 // 🔎 Get one nursery (must belong to the logged-in user)
-export const getOne: AppRouteHandler<GetByIdRoute> = async (c) => {
+export const getOne: APIRouteHandler<GetByIdRoute> = async (c) => {
+const db = c.get("db");
   const { id } = c.req.valid("param");
   const session = c.get("session") as Session | undefined;
 
@@ -122,7 +125,7 @@ export const getOne: AppRouteHandler<GetByIdRoute> = async (c) => {
 };
 
 // ✏️ Update (only your own row)
-export const patch: AppRouteHandler<UpdateRoute> = async (c) => {
+export const patch: APIRouteHandler<UpdateRoute> = async (c) => {
   const { id } = c.req.valid("param");
   const updates = c.req.valid("json");
   const session = c.get("session") as Session | undefined;
@@ -165,7 +168,7 @@ export const patch: AppRouteHandler<UpdateRoute> = async (c) => {
 };
 
 // 🗑️ Delete (only your own row)
-export const remove: AppRouteHandler<RemoveRoute> = async (c) => {
+export const remove: APIRouteHandler<RemoveRoute> = async (c) => {
   const { id } = c.req.valid("param");
   const session = c.get("session") as Session | undefined;
 
@@ -199,7 +202,7 @@ export const remove: AppRouteHandler<RemoveRoute> = async (c) => {
   return c.body(null, HttpStatusCodes.NO_CONTENT);
 };
 
-export const getMyNursery: AppRouteHandler<GetMyNurseryRoute> = async (c) => {
+export const getMyNursery: APIRouteHandler<GetMyNurseryRoute> = async (c) => {
   const session = c.get("session") as Session | undefined;
 
   if (!session?.userId || !session.activeOrganizationId) {

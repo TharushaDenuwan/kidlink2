@@ -6,7 +6,7 @@ import {
   errorMessageSchema,
   getPaginatedSchema,
   stringIdParamSchema
-} from "@api/lib/helpers";
+} from "core/zod";
 
 import {
   chatListQuerySchema,

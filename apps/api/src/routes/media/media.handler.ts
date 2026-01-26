@@ -2,10 +2,11 @@ import { and, desc, eq, ilike, sql } from "drizzle-orm";
 import * as HttpStatusCodes from "stoker/http-status-codes";
 import * as HttpStatusPhrases from "stoker/http-status-phrases";
 
-import type { AppRouteHandler } from "@api/types";
+import type { APIRouteHandler } from "@/types";
 
-import { db } from "@api/db";
-import { media } from "@repo/database";
+//import { db } from "@api/db";
+
+import { media } from "core/database/schema";
 import type {
   CreateRoute,
   GetByIdRoute,
@@ -15,8 +16,9 @@ import type {
 } from "./media.routes";
 
 // List media route handler
-export const list: AppRouteHandler<ListRoute> = async (c) => {
-  const session = c.get("session");
+export const list: APIRouteHandler<ListRoute> = async (c) => {
+const db = c.get("db");
+ const session = c.get("session");
   const {
     page = "1",
     limit = "10",
@@ -91,9 +93,10 @@ export const list: AppRouteHandler<ListRoute> = async (c) => {
 };
 
 // Get media by ID handler
-export const getById: AppRouteHandler<GetByIdRoute> = async (c) => {
+export const getById: APIRouteHandler<GetByIdRoute> = async (c) => {
   const params = c.req.param();
-  const session = c.get("session");
+ const session = c.get("session");
+const db = c.get("db");
 
   if (!session) {
     return c.json(
@@ -123,9 +126,10 @@ export const getById: AppRouteHandler<GetByIdRoute> = async (c) => {
 };
 
 // Create media
-export const create: AppRouteHandler<CreateRoute> = async (c) => {
+export const create: APIRouteHandler<CreateRoute> = async (c) => {
   const body = c.req.valid("json");
-  const session = c.get("session");
+ const session = c.get("session");
+const db = c.get("db");
 
   if (!session) {
     return c.json(
@@ -151,10 +155,11 @@ export const create: AppRouteHandler<CreateRoute> = async (c) => {
 };
 
 // Update Media
-export const update: AppRouteHandler<UpdateRoute> = async (c) => {
+export const update: APIRouteHandler<UpdateRoute> = async (c) => {
   const params = c.req.valid("param");
   const body = c.req.valid("json");
-  const session = c.get("session");
+ const session = c.get("session");
+const db = c.get("db");
 
   if (!session) {
     return c.json(
@@ -179,9 +184,10 @@ export const update: AppRouteHandler<UpdateRoute> = async (c) => {
 };
 
 // Delete Handler
-export const remove: AppRouteHandler<RemoveRoute> = async (c) => {
+export const remove: APIRouteHandler<RemoveRoute> = async (c) => {
   const params = c.req.valid("param");
-  const session = c.get("session");
+ const session = c.get("session");
+const db = c.get("db");
 
   if (!session) {
     return c.json(

@@ -1,9 +1,9 @@
-import { createRouter } from "@api/lib/create-app";
+import { createAPIRouter } from "@/lib/setup-api";
 
 import * as handlers from "./notification.handlers";
 import * as routes from "./notification.routes";
 
-const router = createRouter()
+const router = createAPIRouter()
   .openapi(routes.getByUserId, handlers.getByUserId)
 
   .openapi(routes.list, handlers.list)

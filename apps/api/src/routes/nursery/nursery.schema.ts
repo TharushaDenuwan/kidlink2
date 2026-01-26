@@ -1,7 +1,7 @@
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
 
-import { nurseries } from "@repo/database";
+import { nurseries } from "core/database/schema";
 
 // Select schema (for reading)
 export const nursery = createSelectSchema(nurseries);

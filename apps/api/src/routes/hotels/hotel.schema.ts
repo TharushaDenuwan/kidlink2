@@ -7,7 +7,7 @@ import {
   hotelPolicies,
   hotels,
   hotelTypes
-} from "@repo/database";
+} from "core/database/schema";
 import { propertyClassSchema } from "../property-classes/property-classes.schema";
 import { roomTypeSchema } from "../rooms/rooms.schems";
 

@@ -1,16 +1,18 @@
 import * as HttpStatusCodes from "stoker/http-status-codes";
 
-import type { AppRouteHandler } from "@api/types";
+import type { APIRouteHandler } from "@/types";
 
-import { db } from "@api/db";
+//import { db } from "@api/db";
+
 import type { CheckUserTypeRoute } from "./system.routes";
 
 // check User type handler
-export const checkUserTypeHandler: AppRouteHandler<CheckUserTypeRoute> = async (
+export const checkUserTypeHandler: APIRouteHandler<CheckUserTypeRoute> = async (
   c
 ) => {
   try {
-    const session = c.get("session");
+   const session = c.get("session");
+const db = c.get("db");
     const user = c.get("user");
 
     if (!session || !user) {

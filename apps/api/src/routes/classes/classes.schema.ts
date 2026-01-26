@@ -2,7 +2,7 @@ import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
 
 
-import { classes } from "@repo/database";
+import { classes } from "core/database/schema";
 
 export const classesSchema = createSelectSchema(classes);
 export const classesInsertSchema = createInsertSchema(classes).omit({

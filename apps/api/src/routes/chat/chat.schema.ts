@@ -7,7 +7,7 @@ import {
   messages,
   messageStatus,
   typingIndicators
-} from "@repo/database";
+} from "core/database/schema";
 
 // Base schemas from database tables
 export const chatSchema = createSelectSchema(chats);

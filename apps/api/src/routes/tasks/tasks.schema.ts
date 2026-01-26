@@ -1,6 +1,6 @@
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 
-import { tasks } from "@repo/database";
+import { tasks } from "core/database/schema";
 import { z } from "zod";
 
 export const selectTaskSchema = createSelectSchema(tasks);

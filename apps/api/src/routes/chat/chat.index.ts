@@ -1,9 +1,9 @@
-import { createRouter } from "@api/lib/create-app";
+import { createAPIRouter } from "@/lib/setup-api";
 
 import * as handlers from "./chat.handler";
 import * as routes from "./chat.routes";
 
-const router = createRouter()
+const router = createAPIRouter()
   // Chat management
   .openapi(routes.listChatsRoute, handlers.listChatsHandler)
   .openapi(routes.getChatRoute, handlers.getChatHandler)

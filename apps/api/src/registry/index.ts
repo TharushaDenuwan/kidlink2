@@ -32,28 +32,28 @@ import user from "../routes/user/user.index";
 export function registerRoutes(app: OpenAPI) {
 const registeredApp = app
   .route("/", index)
-  .route("/badges", badges);
-  // .route("/children", children)
-  // .route("/conversation-participants", conversationParticipant)
-  // .route("/conversations", conversation)
-  // .route("/events", event)
-  // .route("/feedbacks", feedbacks)
-  // .route("/gallery", gallery)
+  .route("/badges", badges)
+  .route("/children", children)
+  .route("/conversation-participants", conversationParticipant)
+  .route("/conversations", conversation)
+  .route("/events", event)
+  .route("/feedbacks", feedbacks)
+  .route("/gallery", gallery)
   // .route("/hotels", hotels)
-  // .route("/lesson-plans", lessonPlans)
-  // .route("/media", media)
-  // .route("/messages", messages)
-  // .route("/notifications", notification)
-  // .route("/nursery-classes", nurseryClass)
-  // .route("/nurseries", nursery)
-  // .route("/organizations", organization)
-  // .route("/parents", parent)
-  // .route("/payments", payment)
+  .route("/lesson-plans", lessonPlans)
+  .route("/media", media)
+  .route("/messages", messages)
+  .route("/notifications", notification)
+  .route("/nursery-classes", nurseryClass)
+  .route("/nurseries", nursery)
+  .route("/organizations", organization)
+  .route("/parents", parent)
+  .route("/payments", payment)
   // .route("/property-classes", propertyClasses)
-  // .route("/system", system)
-  // .route("/tasks", tasks);
-  // .route("/teachers", teacher)
-  // .route("/users", user);
+  .route("/system", system)
+  .route("/tasks", tasks)
+  .route("/teachers", teacher)
+  .route("/users", user);
 
   return registeredApp;
 }

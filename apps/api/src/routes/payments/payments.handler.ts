@@ -3,9 +3,10 @@ import { eq } from "drizzle-orm";
 import * as HttpStatusCodes from "stoker/http-status-codes";
 import * as HttpStatusPhrases from "stoker/http-status-phrases";
 
-import { db } from "@api/db";
-import type { AppRouteHandler } from "@api/types";
-import { payments } from "@repo/database";
+//import { db } from "@api/db";
+
+import type { APIRouteHandler } from "@/types";
+import { payments } from "core/database/schema";
 
 import type {
   CreateRoute,
@@ -16,7 +17,8 @@ import type {
 } from "./payments.routes";
 
 // 🔍 List all payments
-export const list: AppRouteHandler<ListRoute> = async (c) => {
+export const list: APIRouteHandler<ListRoute> = async (c) => {
+const db = c.get("db");
   const results = await db.query.payments.findMany({});
   const page = 1; // or from query params
   const limit = results.length; // or from query params
@@ -38,9 +40,10 @@ export const list: AppRouteHandler<ListRoute> = async (c) => {
 };
 
 // Create new payments
-export const create: AppRouteHandler<CreateRoute> = async (c) => {
+export const create: APIRouteHandler<CreateRoute> = async (c) => {
   const body = c.req.valid("json");
-  const session = c.get("session");
+ const session = c.get("session");
+const db = c.get("db");
 
   if (!session) {
     return c.json(
@@ -66,7 +69,8 @@ export const create: AppRouteHandler<CreateRoute> = async (c) => {
 };
 
 // 🔍 Get a single payments
-export const getOne: AppRouteHandler<GetByIdRoute> = async (c) => {
+export const getOne: APIRouteHandler<GetByIdRoute> = async (c) => {
+const db = c.get("db");
   const { id } = c.req.valid("param");
 
   const payment = await db.query.payments.findFirst({
@@ -84,10 +88,11 @@ export const getOne: AppRouteHandler<GetByIdRoute> = async (c) => {
 };
 
 // Update payments
-export const patch: AppRouteHandler<UpdateRoute> = async (c) => {
+export const patch: APIRouteHandler<UpdateRoute> = async (c) => {
   const { id } = c.req.valid("param");
   const updates = c.req.valid("json");
-  const session = c.get("session");
+ const session = c.get("session");
+const db = c.get("db");
 
   if (!session) {
     return c.json(
@@ -188,9 +193,10 @@ export const patch: AppRouteHandler<UpdateRoute> = async (c) => {
 };
 
 //  Delete payments
-export const remove: AppRouteHandler<RemoveRoute> = async (c) => {
+export const remove: APIRouteHandler<RemoveRoute> = async (c) => {
   const { id } = c.req.valid("param");
   const session = c.get("user") as { organizationId?: string } | undefined;
+  const db = c.get("db");
 
   if (!session) {
     return c.json(
@@ -218,9 +224,10 @@ export const remove: AppRouteHandler<RemoveRoute> = async (c) => {
 // import * as HttpStatusCodes from "stoker/http-status-codes";
 // import * as HttpStatusPhrases from "stoker/http-status-phrases";
 
-// import { db } from "@api/db";
-// import type { AppRouteHandler } from "@api/types";
-// import { payments } from "@repo/database";
+// //import { db } from "@api/db";
+
+// import type { APIRouteHandler } from "@/types";
+// import { payments } from "core/database/schema";
 
 // import type {
 //   ListRoute,
@@ -231,7 +238,7 @@ export const remove: AppRouteHandler<RemoveRoute> = async (c) => {
 // } from "./payments.routes";
 
 // // 📝 List all payments
-// export const list: AppRouteHandler<ListRoute> = async (c) => {
+// export const list: APIRouteHandler<ListRoute> = async (c) => {
 //   const results = await db.query.payments.findMany({});
 //   return c.json(
 //     {
@@ -243,7 +250,7 @@ export const remove: AppRouteHandler<RemoveRoute> = async (c) => {
 // };
 
 // // ➕ Create new payments
-// export const create: AppRouteHandler<CreateRoute> = async (c) => {
+// export const create: APIRouteHandler<CreateRoute> = async (c) => {
 //   const body = c.req.valid("json");
 //   const session = c.get("user") as { organizationId?: string } | undefined;
 
@@ -268,7 +275,7 @@ export const remove: AppRouteHandler<RemoveRoute> = async (c) => {
 // };
 
 // // 🔍 Get a single payments
-// export const getOne: AppRouteHandler<GetByIdRoute> = async (c) => {
+// export const getOne: APIRouteHandler<GetByIdRoute> = async (c) => {
 //   const { id } = c.req.valid("params");
 
 //   const found = await db.query.payments.findFirst({
@@ -286,7 +293,7 @@ export const remove: AppRouteHandler<RemoveRoute> = async (c) => {
 // };
 
 // // ✏️ Update payments
-// export const patch: AppRouteHandler<UpdateRoute> = async (c) => {
+// export const patch: APIRouteHandler<UpdateRoute> = async (c) => {
 //   const { id } = c.req.valid("params");
 //   const updates = c.req.valid("json");
 //   const session = c.get("user") as { organizationId?: string } | undefined;
@@ -318,7 +325,7 @@ export const remove: AppRouteHandler<RemoveRoute> = async (c) => {
 // };
 
 // // 🗑 Delete payments
-// export const remove: AppRouteHandler<RemoveRoute> = async (c) => {
+// export const remove: APIRouteHandler<RemoveRoute> = async (c) => {
 //   const { id } = c.req.valid("params");
 //   const session = c.get("user") as { organizationId?: string } | undefined;
 

@@ -28,8 +28,8 @@ const router = createAPIRouter().openapi(
   }),
   async (c) => {
     const user = c.get("user");
-    const session = c.get("session");
-    const db = c.get("db");
+   const session = c.get("session");
+const db = c.get("db");
 
     const result = await db.execute(`select 'hello world from DB!' as text`);
 
