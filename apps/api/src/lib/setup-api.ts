@@ -11,6 +11,7 @@ import { BASE_PATH } from "./constants";
 import { getDatabase } from "core/database";
 import { logger } from "hono/logger";
 
+
 // Create a new OpenAPIHono instance with API Bindings
 export function createAPIRouter(): OpenAPIHono<APIBindings> {
   return new OpenAPIHono<APIBindings>({
@@ -19,10 +20,11 @@ export function createAPIRouter(): OpenAPIHono<APIBindings> {
   });
 }
 
+
+
 // Setup API
 export function setupAPI(): OpenAPIHono<APIBindings> {
   const api = createAPIRouter().basePath(BASE_PATH) as OpenAPI;
-
   // Logging Middleware
   api.use("*", logger());
 
@@ -30,7 +32,7 @@ export function setupAPI(): OpenAPIHono<APIBindings> {
   api.use(
     "*",
     cors({
-      origin: [env.CLIENT_URL!],
+      origin: [process.env.CLIENT_URL!],
       allowHeaders: ["Content-Type", "Authorization"],
       allowMethods: ["POST", "GET", "PUT", "DELETE", "PATCH", "OPTIONS"],
       exposeHeaders: ["Content-Length"],
@@ -39,8 +41,10 @@ export function setupAPI(): OpenAPIHono<APIBindings> {
     })
   );
 
+
   // Serve Favicon for fun
   api.use("*", serveEmojiFavicon("🍔"));
+
 
   // Inject Database into context
   api.use("*", async (c, next) => {

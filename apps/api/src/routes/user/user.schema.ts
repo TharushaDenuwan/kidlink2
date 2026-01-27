@@ -1,5 +1,5 @@
 // user.schema.ts
-import { user } from "core/database/schema";
+import { users } from "core/database/schema";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -10,10 +10,10 @@ const overrides = {
 };
 
 // Select schema for user
-export const userSelectSchema = createSelectSchema(user, overrides);
+export const userSelectSchema = createSelectSchema(users, overrides);
 
 // Insert schema (omit auto-generated fields)
-export const userInsertSchema = createInsertSchema(user)
+export const userInsertSchema = createInsertSchema(users)
   .omit({
     id: true,
     createdAt: true,
@@ -22,7 +22,7 @@ export const userInsertSchema = createInsertSchema(user)
   .transform((data) => ({ ...data }));
 
 // Update schema (partial, omit auto-generated fields)
-export const userUpdateSchema = createInsertSchema(user)
+export const userUpdateSchema = createInsertSchema(users)
   .omit({
     id: true,
     createdAt: true,

@@ -4,6 +4,8 @@ import { jsonContent } from "stoker/openapi/helpers";
 
 import { errorMessageSchema } from "core/zod";
 import { checkUserTypeSchema } from "./system.schema";
+import { authMiddleware } from "@/middlewares/auth.middleware"
+
 
 const tags: string[] = ["System"];
 
@@ -13,6 +15,8 @@ export const checkUserType = createRoute({
   summary: "Check user type",
   path: "/check-user-type",
   method: "get",
+  middleware: [authMiddleware],
+
   responses: {
     [HttpStatusCodes.OK]: jsonContent(checkUserTypeSchema, "The user type"),
     [HttpStatusCodes.UNAUTHORIZED]: jsonContent(
