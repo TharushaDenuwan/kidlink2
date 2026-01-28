@@ -12,8 +12,9 @@ export const checkUserTypeHandler: APIRouteHandler<CheckUserTypeRoute> = async (
 ) => {
   try {
    const session = c.get("session");
-const db = c.get("db");
+// const db = c.get("db");
     const user = c.get("user");
+    console.log({ session, user });
 
     if (!session || !user) {
       return c.json(
@@ -31,25 +32,25 @@ const db = c.get("db");
     }
 
     // Check user id exists as member in member table
-    const userOrg = await db.query.member.findFirst({
-      where: (fields, { eq }) => eq(fields.userId, user.id)
-    });
+    // const userOrg = await db.query.member.findFirst({
+    //   where: (fields, { eq }) => eq(fields.userId, user.id)
+    // });
 
-    if (userOrg) {
-      // Set active organization as created organization
-      // const switchRes = await auth.api.setActiveOrganization({
-      //   body: {
-      //     organizationId: userOrg.organizationId
-      //   },
-      //   headers: {
-      //     cookie: c.req.header("cookie")
-      //   }
-      // });
+    // if (userOrg) {
+    //   // Set active organization as created organization
+    //   // const switchRes = await auth.api.setActiveOrganization({
+    //   //   body: {
+    //   //     organizationId: userOrg.organizationId
+    //   //   },
+    //   //   headers: {
+    //   //     cookie: c.req.header("cookie")
+    //   //   }
+    //   // });
 
-      // console.log({ switchRes });
+    //   // console.log({ switchRes });
 
-      return c.json({ userType: "hotelOwner" as const }, HttpStatusCodes.OK);
-    }
+    //   return c.json({ userType: "hotelOwner" as const }, HttpStatusCodes.OK);
+    // }
 
     return c.json({ userType: "user" as const }, HttpStatusCodes.OK);
   } catch (error) {

@@ -13,12 +13,12 @@ export interface AuthConfigurations {
 
 export function configAuth(config: AuthConfigurations) {
   const baseAuthInstance = betterAuth({
-    //  trustedOrigins: [process.env.CLIENT_URL!],
-    trustedOrigins: [
-  "http://localhost:3000", // your frontend dev
-  "http://localhost:3001", // other port
-  "http://127.0.0.1:3001"
-],
+     trustedOrigins: [process.env.CLIENT_URL!],
+//     trustedOrigins: [
+//   "http://localhost:3000", // your frontend dev
+//   "http://localhost:3001", // other port
+//   "http://127.0.0.1:3001"
+// ],
     baseURL: process.env.BETTER_AUTH_URL,
     database: drizzleAdapter(config.database, {
       
