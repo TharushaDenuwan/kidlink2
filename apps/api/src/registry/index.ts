@@ -1,7 +1,7 @@
-import { createAPIRouter } from "@/lib/setup-api";
-import { OpenAPI } from "@/types";
+import { createAPIRouter } from "../lib/setup-api";
+import { OpenAPI } from "../lib/open-api-config";
 
-import { BASE_PATH } from "@/lib/constants";
+import { BASE_PATH } from "../lib/constants";
 
 import index from "../routes/index.route";
 
