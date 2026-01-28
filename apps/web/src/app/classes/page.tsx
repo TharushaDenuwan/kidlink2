@@ -1,6 +1,8 @@
 // app/page.tsx
 "use client";
 
+
+
 import CreateClassForm from "@/features/classes/components/create-class-form";
 
 export default function Home() {

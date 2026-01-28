@@ -129,6 +129,7 @@ export const patch: APIRouteHandler<UpdateRoute> = async (c) => {
   return c.json(updated, HttpStatusCodes.OK);
 };
 
+
 //  Delete children
 export const remove: APIRouteHandler<RemoveRoute> = async (c) => {
   const { id } = c.req.valid("param");
