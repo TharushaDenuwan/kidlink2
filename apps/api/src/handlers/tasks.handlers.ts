@@ -9,7 +9,7 @@ import {
   updateTask
 } from "core/database/queries";
 
-import { APIRouteHandler } from "@/types";
+import { APIRouteHandler } from "../../types";
 import type {
   ListRoute,
   CreateRoute,

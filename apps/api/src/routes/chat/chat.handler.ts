@@ -5,7 +5,7 @@ import * as HttpStatusCodes from "stoker/http-status-codes";
 
 import { wsManager } from "@api/lib/websocket-manager";
 import { getServer } from "@api/lib/websocket-setup";
-import type { APIRouteHandler } from "@/types";
+import type { APIRouteHandler } from "../../types";
 
 import {
   chatParticipants,

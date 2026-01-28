@@ -4,7 +4,7 @@ import * as HttpStatusPhrases from "stoker/http-status-phrases";
 
 // //import { db } from "@api/db";
 
-import { APIRouteHandler } from "@/types";
+import { APIRouteHandler } from "../../types";
 // import { badges } from "core/database/schema";
 
 import type { ListRoute } from "./badges.routes";

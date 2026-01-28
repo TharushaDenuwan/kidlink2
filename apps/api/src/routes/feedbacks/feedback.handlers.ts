@@ -4,7 +4,7 @@ import * as HttpStatusPhrases from "stoker/http-status-phrases";
 
 //import { db } from "@api/db";
 
-import type { APIRouteHandler } from "@/types";
+import type { APIRouteHandler } from "../../types";
 import { feedbacks } from "core/database/schema";
 
 import type {
@@ -190,7 +190,7 @@ export const remove: APIRouteHandler<RemoveRoute> = async (c) => {
 
 // //import { db } from "@api/db";
 
-// import type { APIRouteHandler } from "@/types";
+// import type { APIRouteHandler } from "../../types";
 // import { feedbacks } from "core/database/schema";
 
 // import type {

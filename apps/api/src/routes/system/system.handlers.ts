@@ -1,6 +1,6 @@
 import * as HttpStatusCodes from "stoker/http-status-codes";
 
-import type { APIRouteHandler } from "@/types";
+import type { APIRouteHandler } from "../../types";
 
 //import { db } from "@api/db";
 
