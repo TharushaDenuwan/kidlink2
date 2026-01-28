@@ -1,21 +1,31 @@
-import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
 
-import { messages } from "core/database/schema";
-
-export const message = createSelectSchema(messages);
-
-export const messageInsertSchema = createInsertSchema(messages).omit({
-  id: true,
-  updatedAt: true,
-  createdAt: true,
+export const message = z.object({
+  id: z.string(),
+  conversationId: z.string(),
+  senderId: z.string(),
+  content: z.string().nullable(),
+  attachmentUrl: z.string().nullable(),
+  isRead: z.boolean(),
+  createdAt: z.date(),
+  updatedAt: z.date()
 });
 
-export const messageUpdateSchema = createInsertSchema(messages)
-  .omit({
-    id: true,
-    createdAt: true,
-    updatedAt: true,
+export const messageInsertSchema = z.object({
+  conversationId: z.string(),
+  senderId: z.string(),
+  content: z.string().nullable().optional(),
+  attachmentUrl: z.string().nullable().optional(),
+  isRead: z.boolean().optional()
+});
+
+export const messageUpdateSchema = z
+  .object({
+    conversationId: z.string().optional(),
+    senderId: z.string().optional(),
+    content: z.string().nullable().optional(),
+    attachmentUrl: z.string().nullable().optional(),
+    isRead: z.boolean().optional()
   })
   .partial();
 

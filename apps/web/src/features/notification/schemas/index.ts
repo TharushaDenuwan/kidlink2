@@ -1,23 +1,36 @@
-import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
 
-import { notifications } from "core/database/schema";
-
-export const notification = createSelectSchema(notifications);
-
-export const notificationInsertSchema = createInsertSchema(notifications).omit({
-  id: true,
-  updatedAt: true,
-  createdAt: true,
-  organizationId: true,
+export const notification = z.object({
+  id: z.string(),
+  organizationId: z.string().nullable(),
+  senderId: z.string(),
+  receiverId: z.array(z.string()),
+  topic: z.string(),
+  description: z.string(),
+  status: z.enum(["event", "parents meeting", "found colection", "others"]),
+  updatedAt: z.date().nullable(),
+  createdAt: z.date().nullable()
 });
 
-export const notificationUpdateSchema = createInsertSchema(notifications)
-  .omit({
-    id: true,
-    organizationId: true,
-    createdAt: true,
-    updatedAt: true,
+export const notificationInsertSchema = z.object({
+  senderId: z.string(),
+  receiverId: z.array(z.string()),
+  topic: z.string(),
+  description: z.string(),
+  status: z
+    .enum(["event", "parents meeting", "found colection", "others"])
+    .optional()
+});
+
+export const notificationUpdateSchema = z
+  .object({
+    senderId: z.string().optional(),
+    receiverId: z.array(z.string()).optional(),
+    topic: z.string().optional(),
+    description: z.string().optional(),
+    status: z
+      .enum(["event", "parents meeting", "found colection", "others"])
+      .optional()
   })
   .partial();
 

@@ -1,23 +1,26 @@
-import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
 
-import { conversations } from "core/database/schema";
-
-export const conversation = createSelectSchema(conversations);
-
-export const conversationInsertSchema = createInsertSchema(conversations).omit({
-  id: true,
-  organizationId: true,
-  updatedAt: true,
-  createdAt: true,
+export const conversation = z.object({
+  id: z.string(),
+  organizationId: z.string().nullable(),
+  title: z.string(),
+  isGroup: z.boolean().nullable(),
+  createdBy: z.string(),
+  updatedAt: z.date().nullable(),
+  createdAt: z.date().nullable()
 });
 
-export const conversationUpdateSchema = createInsertSchema(conversations)
-  .omit({
-    id: true,
-    organizationId: true,
-    createdAt: true,
-    updatedAt: true,
+export const conversationInsertSchema = z.object({
+  title: z.string(),
+  isGroup: z.boolean().nullable().optional(),
+  createdBy: z.string()
+});
+
+export const conversationUpdateSchema = z
+  .object({
+    title: z.string().optional(),
+    isGroup: z.boolean().nullable().optional(),
+    createdBy: z.string().optional()
   })
   .partial();
 

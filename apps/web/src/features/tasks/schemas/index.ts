@@ -1,10 +1,10 @@
-import { createInsertSchema, createSelectSchema } from "drizzle-zod";
-
-import { tasks } from "core/database/schema/schemas";
 import { z } from "zod";
 
-// Convert createdAt , updatedAt to String from Date
-export const selectTaskSchema = createSelectSchema(tasks).extend({
+// Convert createdAt, updatedAt to String from Date
+export const selectTaskSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  done: z.boolean(),
   createdAt: z.date().transform((date) => date && date.toISOString()),
   updatedAt: z
     .date()
@@ -12,9 +12,10 @@ export const selectTaskSchema = createSelectSchema(tasks).extend({
     .nullable()
 });
 
-export const addTaskSchema = createInsertSchema(tasks).omit({
-  createdAt: true,
-  updatedAt: true
+export const addTaskSchema = z.object({
+  id: z.number().optional(),
+  name: z.string(),
+  done: z.boolean()
 });
 
 export const updateTaskSchema = addTaskSchema.partial();

@@ -1,27 +1,26 @@
-import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
 
-import { lessonPlans } from "core/database/schema";
-
-export const lessonPlan = createSelectSchema(lessonPlans);
-
-export const lessonPlanInsertSchema = createInsertSchema(lessonPlans).omit({
-  id: true,
-  classId: true,
-  teacherId: true,
-  updatedAt: true,
-  createdAt: true,
-  organizationId: true,
+export const lessonPlan = z.object({
+  id: z.string(),
+  organizationId: z.string().nullable(),
+  title: z.string(),
+  content: z.string().nullable(),
+  teacherId: z.string().nullable(),
+  childId: z.string().nullable(),
+  classId: z.string().nullable(),
+  createdAt: z.date().nullable(),
+  updatedAt: z.date().nullable()
 });
 
-export const lessonPlanUpdateSchema = createInsertSchema(lessonPlans)
-  .omit({
-    id: true,
-    organizationId: true,
-    classId: true,
-    teacherId: true,
-    createdAt: true,
-    updatedAt: true,
+export const lessonPlanInsertSchema = z.object({
+  title: z.string(),
+  content: z.string().nullable().optional()
+});
+
+export const lessonPlanUpdateSchema = z
+  .object({
+    title: z.string().optional(),
+    content: z.string().nullable().optional()
   })
   .partial();
 

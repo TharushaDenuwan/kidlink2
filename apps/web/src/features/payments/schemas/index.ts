@@ -1,26 +1,34 @@
-import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
 
-import { payments } from "core/database/schema";
-
-export const paymentsSchema = createSelectSchema(payments);
-
-export const paymentsInsertSchema = createInsertSchema(payments, {
-  paidAt: z.coerce.date().nullable().optional(),
-}).omit({
-  id: true,
-  updatedAt: true,
-  createdAt: true,
-  organizationId: true,
+export const paymentsSchema = z.object({
+  id: z.string(),
+  childId: z.string(),
+  amount: z.string(),
+  paymentMethod: z.string(),
+  slipUrl: z.string().nullable(),
+  status: z.string(),
+  paidAt: z.date().nullable(),
+  organizationId: z.string().nullable(),
+  createdAt: z.date(),
+  updatedAt: z.date()
 });
 
-export const paymentsUpdateSchema = createInsertSchema(payments)
-  .omit({
-    id: true,
-    organizationId: true,
-    childId: true,
-    createdAt: true,
-    updatedAt: true,
+export const paymentsInsertSchema = z.object({
+  childId: z.string(),
+  amount: z.string(),
+  paymentMethod: z.string(),
+  slipUrl: z.string().nullable().optional(),
+  status: z.string().optional(),
+  paidAt: z.coerce.date().nullable().optional()
+});
+
+export const paymentsUpdateSchema = z
+  .object({
+    amount: z.string().optional(),
+    paymentMethod: z.string().optional(),
+    slipUrl: z.string().nullable().optional(),
+    status: z.string().optional(),
+    paidAt: z.coerce.date().nullable().optional()
   })
   .partial();
 

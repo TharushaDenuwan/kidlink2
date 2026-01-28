@@ -1,24 +1,21 @@
-import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
 
-import { classes } from "core/database/schema";
-
-// Base select schema (from Drizzle)
-export const classSchema = createSelectSchema(classes, {
-  teacherIds: z.array(z.string()), // force teacherIds to be string[]
+// Base select schema
+export const classSchema = z.object({
+  id: z.string(),
+  name: z.string(),
   nurseryId: z.string().nullable(),
-  mainTeacherId: z.string().nullable(),
+  teacherId: z.string().nullable(),
+  organizationId: z.string().nullable(),
+  createdAt: z.date(),
+  updatedAt: z.date()
 });
 
 // Insert schema
-export const classInsertSchema = createInsertSchema(classes, {
-  teacherIds: z.array(z.string()).default([]),
-  nurseryId: z.string().nullable(),
-  mainTeacherId: z.string().nullable(),
-}).omit({
-  id: true,
-  createdAt: true,
-  updatedAt: true,
+export const classInsertSchema = z.object({
+  name: z.string(),
+  nurseryId: z.string().nullable().optional(),
+  teacherId: z.string().nullable().optional()
 });
 
 // Update schema (partial for PATCH)

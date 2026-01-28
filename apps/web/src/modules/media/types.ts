@@ -1,7 +1,4 @@
-import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
-
-import { media, mediaTypeEnum } from "core/database/schema";
 
 export const queryParamsSchema = z.object({
   page: z.string().optional(),
@@ -12,11 +9,19 @@ export const queryParamsSchema = z.object({
 
 export type QueryParamsSchema = z.infer<typeof queryParamsSchema>;
 
-export const mediaTypeSchema = createSelectSchema(mediaTypeEnum);
+export const mediaTypeSchema = z.enum(["image", "video", "audio", "document"]);
 
 export type MediaType = z.infer<typeof mediaTypeSchema>;
 
-export const mediaSchema = createSelectSchema(media);
+export const mediaSchema = z.object({
+  id: z.string(),
+  url: z.string(),
+  type: mediaTypeSchema,
+  filename: z.string(),
+  size: z.number(),
+  createdAt: z.date(),
+  updatedAt: z.date()
+});
 
 export type Media = z.infer<typeof mediaSchema>;
 
@@ -35,19 +40,21 @@ export interface UploadParams {
   onProgress: (progress: Progress) => void;
 }
 
-export const mediaUploadSchema = createInsertSchema(media).omit({
-  id: true,
-  createdAt: true,
-  updatedAt: true
+export const mediaUploadSchema = z.object({
+  url: z.string(),
+  type: mediaTypeSchema,
+  filename: z.string(),
+  size: z.number()
 });
 
 export type MediaUploadType = z.infer<typeof mediaUploadSchema>;
 
-export const mediaUpdateSchema = createInsertSchema(media)
-  .omit({
-    id: true,
-    createdAt: true,
-    type: true
+export const mediaUpdateSchema = z
+  .object({
+    url: z.string().optional(),
+    filename: z.string().optional(),
+    size: z.number().optional(),
+    updatedAt: z.date().optional()
   })
   .partial();
 
