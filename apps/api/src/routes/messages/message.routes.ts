@@ -135,7 +135,10 @@ export const getByConversationId = createRoute({
   },
   responses: {
     [HttpStatusCodes.OK]: jsonContent(
-      getPaginatedSchema(z.array(message)),
+      z.object({
+        data: z.array(message),
+        totalCount: z.number()
+      }),
       "The list of messages for the conversation"
     ),
     [HttpStatusCodes.BAD_REQUEST]: jsonContent(

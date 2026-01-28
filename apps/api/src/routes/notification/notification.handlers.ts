@@ -13,12 +13,12 @@ import type {
   GetByUserIdRoute,
   ListRoute,
   RemoveRoute,
-  UpdateRoute,
+  UpdateRoute
 } from "./notification.routes";
 
 // 🔍 List all notifications
 export const list: APIRouteHandler<ListRoute> = async (c) => {
-const db = c.get("db");
+  const db = c.get("db");
   const results = await db.query.notifications.findMany({});
   const page = 1; // or from query params
   const limit = results.length; // or from query params
@@ -32,8 +32,8 @@ const db = c.get("db");
         totalCount,
         limit,
         currentPage: page,
-        totalPages,
-      },
+        totalPages
+      }
     },
     HttpStatusCodes.OK
   );
@@ -42,8 +42,8 @@ const db = c.get("db");
 // Create new notification
 export const create: APIRouteHandler<CreateRoute> = async (c) => {
   const body = c.req.valid("json");
- const session = c.get("session");
-const db = c.get("db");
+  const session = c.get("session");
+  const db = c.get("db");
 
   if (!session) {
     return c.json(
@@ -57,7 +57,7 @@ const db = c.get("db");
     .values({
       ...body,
       organizationId: session.activeOrganizationId,
-      createdAt: new Date(),
+      createdAt: new Date()
     })
     .returning();
 
@@ -66,11 +66,11 @@ const db = c.get("db");
 
 // 🔍 Get a single notification
 export const getOne: APIRouteHandler<GetByIdRoute> = async (c) => {
-const db = c.get("db");
+  const db = c.get("db");
   const { id } = c.req.valid("param");
 
   const notification = await db.query.notifications.findFirst({
-    where: eq(notifications.id, String(id)),
+    where: eq(notifications.id, String(id))
   });
 
   if (!notification) {
@@ -85,6 +85,7 @@ const db = c.get("db");
 
 // Update notification
 export const patch: APIRouteHandler<UpdateRoute> = async (c) => {
+  const db = c.get("db");
   const { id } = c.req.valid("param");
   const updates = c.req.valid("json");
   const session = c.get("user");
@@ -100,7 +101,7 @@ export const patch: APIRouteHandler<UpdateRoute> = async (c) => {
     .update(notifications)
     .set({
       ...updates,
-      updatedAt: new Date(),
+      updatedAt: new Date()
     })
     .where(eq(notifications.id, String(id)))
     .returning();
@@ -117,6 +118,7 @@ export const patch: APIRouteHandler<UpdateRoute> = async (c) => {
 
 //  Delete notification
 export const remove: APIRouteHandler<RemoveRoute> = async (c) => {
+  const db = c.get("db");
   const { id } = c.req.valid("param");
   const session = c.get("user") as { organizationId?: string } | undefined;
 
@@ -144,6 +146,7 @@ export const remove: APIRouteHandler<RemoveRoute> = async (c) => {
 
 // Get notifications by receiverId
 export const getByUserId: APIRouteHandler<GetByUserIdRoute> = async (c) => {
+  const db = c.get("db");
   const { receiverId } = c.req.valid("query");
   if (!receiverId) {
     // Return the expected error response type
@@ -154,13 +157,13 @@ export const getByUserId: APIRouteHandler<GetByUserIdRoute> = async (c) => {
   }
   // Find notifications where receiverId matches
   const results = await db.query.notifications.findMany({
-    where: eq(notifications.receiverId, [receiverId]),
+    where: eq(notifications.receiverId, [receiverId])
   });
   // Ensure createdAt and updatedAt are strings
   const serializedResults = results.map((notif) => ({
     ...notif,
     createdAt: notif.createdAt ? notif.createdAt.toISOString() : null,
-    updatedAt: notif.updatedAt ? notif.updatedAt.toISOString() : null,
+    updatedAt: notif.updatedAt ? notif.updatedAt.toISOString() : null
   }));
   // Return only the array, as expected by the route response type
   return c.json(serializedResults, HttpStatusCodes.OK);
