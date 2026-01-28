@@ -12,7 +12,7 @@ import {
 
 // Entity Schemas
 import { selectTaskSchema, insertTaskSchema, updateTaskSchema } from "core/zod";
-import { authMiddleware } from "@/middlewares/auth.middleware";
+import { authMiddleware } from "@api/middlewares/auth.middleware";
 
 const tags: string[] = ["Tasks"];
 

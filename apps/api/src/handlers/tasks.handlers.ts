@@ -9,14 +9,14 @@ import {
   updateTask
 } from "core/database/queries";
 
-import { APIRouteHandler } from "@/types";
+import { APIRouteHandler } from "@api/types";
 import type {
   ListRoute,
   CreateRoute,
   GetOneRoute,
   PatchRoute,
   RemoveRoute
-} from "@/routes/tasks.route";
+} from "@api/routes/tasks.route";
 
 // Get all tasks as paginated response handler
 export const list: APIRouteHandler<ListRoute> = async (c) => {

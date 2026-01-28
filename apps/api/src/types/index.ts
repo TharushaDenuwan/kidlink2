@@ -1,4 +1,4 @@
-import { BASE_PATH } from "@/lib/constants";
+import { BASE_PATH } from "@api/lib/constants";
 import { OpenAPIHono, RouteConfig, RouteHandler } from "@hono/zod-openapi";
 
 import { getAuth } from "core/auth/setup";

@@ -15,7 +15,7 @@
     "jsxImportSource": "hono/jsx",
 
     "paths": {
-      "@/*": ["./src/*"]
+      "@api/*": ["./src/*"]
     }
   }
 }

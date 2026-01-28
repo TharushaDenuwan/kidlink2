@@ -1,5 +1,5 @@
 // user.router.ts
-import { createAPIRouter } from "@/lib/setup-api";
+import { createAPIRouter } from "@api/lib/setup-api";
 
 import * as handlers from "./user.handlers";
 import * as routes from "./user.routes";

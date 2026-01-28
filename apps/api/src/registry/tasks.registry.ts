@@ -1,7 +1,7 @@
-import { createAPIRouter } from "@/lib/setup-api";
+import { createAPIRouter } from "@api/lib/setup-api";
 
-import * as handlers from "@/handlers/tasks.handlers";
-import * as routes from "@/routes/tasks.route";
+import * as handlers from "@api/handlers/tasks.handlers";
+import * as routes from "@api/routes/tasks.route";
 
 const router = createAPIRouter()
   .openapi(routes.list, handlers.list)

@@ -2,7 +2,7 @@ import { createRoute } from "@hono/zod-openapi";
 import * as HttpStatusCodes from "stoker/http-status-codes";
 import { jsonContent, jsonContentRequired } from "stoker/openapi/helpers";
 import { z } from "zod";
-import { authMiddleware } from "@/middlewares/auth.middleware"
+import { authMiddleware } from "@api/middlewares/auth.middleware"
 
 import {
   errorMessageSchema,

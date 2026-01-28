@@ -4,7 +4,7 @@ import { jsonContent } from "stoker/openapi/helpers";
 
 import { errorMessageSchema } from "core/zod";
 import { checkUserTypeSchema } from "./system.schema";
-import { authMiddleware } from "@/middlewares/auth.middleware"
+import { authMiddleware } from "@api/middlewares/auth.middleware"
 
 
 const tags: string[] = ["System"];
