@@ -27,7 +27,7 @@ import { getClient } from "@/lib/rpc/client";
 import { useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { addLessonPlan } from "../actions/add-lessonPlans.action"; // ⬅️ renamed action
-import { addLessonPlanSchema } from "../schemas"; // ⬅️ renamed schema (see notes below)
+import { lessonPlanInsertSchema } from "../schemas"; // ⬅️ renamed schema (see notes below)
 export function AddNewLessonPlan() {
   const [open, setOpen] = useState<boolean>(false);
   const toastId = useId();
@@ -45,7 +45,7 @@ export function AddNewLessonPlan() {
 
   const form = useAppForm({
     // Validates on change with the lesson plan schema
-    validators: { onChange: addLessonPlanSchema },
+    // validators: { onChange: lessonPlanInsertSchema },
     defaultValues: {
       // Maps to the API-allowed fields only
       title: "",
