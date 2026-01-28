@@ -1,4 +1,4 @@
-import { createAPIRouter } from "@/lib/setup-api";
+import { createAPIRouter } from "../../lib/setup-api";
 
 import * as handlers from "./classes.handler";
 import * as routes from "./classes.routes";

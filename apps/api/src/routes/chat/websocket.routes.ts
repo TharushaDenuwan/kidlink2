@@ -1,6 +1,6 @@
 //import { db } from "@api/db";
 
-import { createAPIRouter } from "@/lib/setup-api";
+import { createAPIRouter } from "../../lib/setup-api";
 import { wsManager } from "@api/lib/websocket-manager";
 import { getServer, upgradeWebSocket } from "@api/lib/websocket-setup";
 import type { TypingEvent } from "core/database/schema";

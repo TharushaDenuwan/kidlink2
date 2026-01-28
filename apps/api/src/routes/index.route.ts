@@ -4,7 +4,7 @@ import { jsonContent } from "stoker/openapi/helpers";
 import { createMessageObjectSchema } from "stoker/openapi/schemas";
 import { z } from "zod";
 
-import { createAPIRouter } from "@/lib/setup-api";
+import { createAPIRouter } from "../lib/setup-api";
 import { authMiddleware } from "@/middlewares/auth.middleware";
 
 const router = createAPIRouter().openapi(
