@@ -5,35 +5,35 @@
   "private": true,
   "exports": {
     "./auth/config": {
-      "import": "./dist/auth/config.js",
+      "import": "./src/auth/config.ts",
       "types": "./src/auth/config.ts"
     },
     "./auth/setup": {
-      "import": "./dist/auth/setup.js",
+      "import": "./src/auth/setup.ts",
       "types": "./src/auth/setup.ts"
     },
     "./database": {
-      "import": "./dist/database/index.js",
+      "import": "./src/database/index.ts",
       "types": "./src/database/index.ts"
     },
     "./database/schema": {
-      "import": "./dist/database/schema/index.js",
+      "import": "./src/database/schema/index.ts",
       "types": "./src/database/schema/index.ts"
     },
     "./database/queries": {
-      "import": "./dist/database/queries/index.js",
+      "import": "./src/database/queries/index.ts",
       "types": "./src/database/queries/index.ts"
     },
     "./rpc": {
-      "import": "./dist/rpc/index.js",
+      "import": "./src/rpc/index.ts",
       "types": "./src/rpc/index.ts"
     },
     "./env": {
-      "import": "./dist/env/index.js",
+      "import": "./src/env/index.ts",
       "types": "./src/env/index.ts"
     },
     "./zod": {
-      "import": "./dist/zod/index.js",
+      "import": "./src/zod/index.ts",
       "types": "./src/zod/index.ts"
     }
   },
