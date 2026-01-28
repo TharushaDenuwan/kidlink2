@@ -12,12 +12,12 @@ import type {
   GetByIdRoute,
   ListRoute,
   RemoveRoute,
-  UpdateRoute,
+  UpdateRoute
 } from "./notifications.routes";
 
 // 🔍 List all notifications
 export const list: APIRouteHandler<ListRoute> = async (c) => {
-const db = c.get("db");
+  const db = c.get("db");
   const results = await db.query.notifications.findMany({});
   const page = 1; // or from query params
   const limit = results.length; // or from query params
@@ -31,8 +31,8 @@ const db = c.get("db");
         totalCount,
         limit,
         currentPage: page,
-        totalPages,
-      },
+        totalPages
+      }
     },
     HttpStatusCodes.OK
   );
@@ -41,8 +41,8 @@ const db = c.get("db");
 // Create new notifications
 export const create: APIRouteHandler<CreateRoute> = async (c) => {
   const body = c.req.valid("json");
- const session = c.get("session");
-const db = c.get("db");
+  const session = c.get("session");
+  const db = c.get("db");
 
   if (!session) {
     return c.json(
@@ -62,7 +62,7 @@ const db = c.get("db");
       readAt: body.readAt,
       organizationId: session.activeOrganizationId,
       createdAt: new Date(),
-      updatedAt: new Date(),
+      updatedAt: new Date()
     })
     .returning();
 
@@ -71,11 +71,11 @@ const db = c.get("db");
 
 // 🔍 Get a single notifications
 export const getOne: APIRouteHandler<GetByIdRoute> = async (c) => {
-const db = c.get("db");
+  const db = c.get("db");
   const { id } = c.req.valid("param");
 
   const notification = await db.query.notifications.findFirst({
-    where: eq(notifications.id, String(id)),
+    where: eq(notifications.id, String(id))
   });
 
   if (!notification) {
@@ -90,6 +90,7 @@ const db = c.get("db");
 
 // Update notifications
 export const patch: APIRouteHandler<UpdateRoute> = async (c) => {
+  const db = c.get("db");
   const { id } = c.req.valid("param");
   const updates = c.req.valid("json");
   const session = c.get("user");
@@ -108,11 +109,11 @@ export const patch: APIRouteHandler<UpdateRoute> = async (c) => {
       ...(updates.message && { message: updates.message }),
       ...(updates.metadata && { metadata: updates.metadata }),
       ...(updates.notificationType && {
-        notificationType: updates.notificationType as "pending" | "approved",
+        notificationType: updates.notificationType as "pending" | "approved"
       }),
       ...(updates.recipientType && { recipientType: updates.recipientType }),
       ...(updates.readAt !== undefined && { readAt: updates.readAt }),
-      updatedAt: new Date(),
+      updatedAt: new Date()
     })
     .where(eq(notifications.id, String(id)))
     .returning();
@@ -129,6 +130,7 @@ export const patch: APIRouteHandler<UpdateRoute> = async (c) => {
 
 //  Delete notifications
 export const remove: APIRouteHandler<RemoveRoute> = async (c) => {
+  const db = c.get("db");
   const { id } = c.req.valid("param");
   const session = c.get("user") as { organizationId?: string } | undefined;
 
