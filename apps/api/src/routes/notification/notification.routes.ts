@@ -7,12 +7,12 @@ import {
   errorMessageSchema,
   getPaginatedSchema,
   queryParamsSchema,
-  stringIdParamSchema,
+  stringIdParamSchema
 } from "core/zod";
 import {
   notification,
   notificationInsertSchema,
-  notificationUpdateSchema,
+  notificationUpdateSchema
 } from "./notification.schema";
 
 const tags: string[] = ["Notification"];
@@ -24,7 +24,7 @@ export const list = createRoute({
   path: "/",
   method: "get",
   request: {
-    query: queryParamsSchema,
+    query: queryParamsSchema
   },
   responses: {
     [HttpStatusCodes.OK]: jsonContent(
@@ -34,8 +34,8 @@ export const list = createRoute({
     [HttpStatusCodes.UNAUTHORIZED]: jsonContent(
       errorMessageSchema,
       "Unauthorized access"
-    ),
-  },
+    )
+  }
 });
 
 // Get by ID route definition
@@ -45,7 +45,7 @@ export const getById = createRoute({
   method: "get",
   path: "/:id",
   request: {
-    params: stringIdParamSchema,
+    params: stringIdParamSchema
   },
   responses: {
     [HttpStatusCodes.OK]: jsonContent(notification, "The notification item"),
@@ -56,8 +56,8 @@ export const getById = createRoute({
     [HttpStatusCodes.NOT_FOUND]: jsonContent(
       errorMessageSchema,
       "Notification not found"
-    ),
-  },
+    )
+  }
 });
 
 // Create Notification route definition
@@ -70,7 +70,7 @@ export const create = createRoute({
     body: jsonContentRequired(
       notificationInsertSchema,
       "Create uploaded notification"
-    ),
+    )
   },
   responses: {
     [HttpStatusCodes.CREATED]: jsonContent(
@@ -84,8 +84,8 @@ export const create = createRoute({
     [HttpStatusCodes.NOT_FOUND]: jsonContent(
       errorMessageSchema,
       "Notification not created"
-    ),
-  },
+    )
+  }
 });
 
 // Update notification route definition
@@ -99,7 +99,7 @@ export const update = createRoute({
     body: jsonContentRequired(
       notificationUpdateSchema,
       "Update notification details schema"
-    ),
+    )
   },
   responses: {
     [HttpStatusCodes.OK]: jsonContent(
@@ -110,8 +110,8 @@ export const update = createRoute({
     [HttpStatusCodes.UNAUTHORIZED]: jsonContent(
       errorMessageSchema,
       "Unauthorized access"
-    ),
-  },
+    )
+  }
 });
 
 // Delete notification route schema
@@ -121,19 +121,18 @@ export const remove = createRoute({
   method: "delete",
   path: "/:id",
   request: {
-    params: stringIdParamSchema,
+    params: stringIdParamSchema
   },
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(
-      z.object({ message: z.string() }),
-      "The notification item"
-    ),
+    [HttpStatusCodes.NO_CONTENT]: {
+      description: "Notification deleted successfully"
+    },
     [HttpStatusCodes.NOT_FOUND]: jsonContent(errorMessageSchema, "Not found"),
     [HttpStatusCodes.UNAUTHORIZED]: jsonContent(
       errorMessageSchema,
       "Unauthorized access"
-    ),
-  },
+    )
+  }
 });
 
 // Get notifications by userId route definition
@@ -143,7 +142,7 @@ export const getByUserId = createRoute({
   method: "get",
   path: "/by-user",
   request: {
-    query: z.object({ receiverId: z.string().min(1) }),
+    query: z.object({ receiverId: z.string().min(1) })
   },
   responses: {
     [HttpStatusCodes.OK]: jsonContent(
@@ -157,8 +156,8 @@ export const getByUserId = createRoute({
     [HttpStatusCodes.UNAUTHORIZED]: jsonContent(
       errorMessageSchema,
       "Unauthorized access"
-    ),
-  },
+    )
+  }
 });
 
 // Export types

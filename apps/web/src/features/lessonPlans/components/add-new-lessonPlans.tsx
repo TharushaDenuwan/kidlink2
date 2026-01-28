@@ -11,7 +11,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
+  DialogTrigger
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import {
@@ -19,7 +19,7 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,
+  SelectValue
 } from "@/components/ui/select";
 import { useAppForm } from "@/components/ui/tanstack-form";
 
@@ -27,7 +27,7 @@ import { getClient } from "@/lib/rpc/client";
 import { useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { addLessonPlan } from "../actions/add-lessonPlans.action"; // ⬅️ renamed action
-import { addLessonPlanSchema } from "../schemas"; // ⬅️ renamed schema (see notes below)
+import { lessonPlanInsertSchema } from "../schemas";
 export function AddNewLessonPlan() {
   const [open, setOpen] = useState<boolean>(false);
   const toastId = useId();
@@ -40,17 +40,17 @@ export function AddNewLessonPlan() {
       const response = await rpcClient.api.classes.$get();
       if (!response.ok) throw new Error("Failed to fetch classes");
       return await response.json();
-    },
+    }
   });
 
   const form = useAppForm({
     // Validates on change with the lesson plan schema
-    validators: { onChange: addLessonPlanSchema },
+    validators: { onChange: lessonPlanInsertSchema },
     defaultValues: {
       // Maps to the API-allowed fields only
       title: "",
       content: "",
-      classId: "",
+      classId: ""
     },
     onSubmit: async ({ value }) => {
       try {
@@ -60,7 +60,7 @@ export function AddNewLessonPlan() {
         const payload = {
           title: value.title,
           classId: value.classId,
-          content: value.content?.trim() || null,
+          content: value.content?.trim() || null
         };
 
         await addLessonPlan(payload);
@@ -73,7 +73,7 @@ export function AddNewLessonPlan() {
       } finally {
         setOpen(false);
       }
-    },
+    }
   });
 
   const handleSubmit = useCallback(

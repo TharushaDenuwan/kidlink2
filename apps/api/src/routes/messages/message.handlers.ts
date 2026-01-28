@@ -13,12 +13,12 @@ import type {
   GetByIdRoute,
   ListRoute,
   RemoveRoute,
-  UpdateRoute,
+  UpdateRoute
 } from "./message.routes";
 
 // 🔍 List all messages
 export const list: APIRouteHandler<ListRoute> = async (c) => {
-const db = c.get("db");
+  const db = c.get("db");
   const results = await db.query.messages.findMany({});
   const page = 1; // or from query params
   const limit = results.length; // or from query params
@@ -32,8 +32,8 @@ const db = c.get("db");
         totalCount,
         limit,
         currentPage: page,
-        totalPages,
-      },
+        totalPages
+      }
     },
     HttpStatusCodes.OK
   );
@@ -42,8 +42,8 @@ const db = c.get("db");
 // Create new message
 export const create: APIRouteHandler<CreateRoute> = async (c) => {
   const body = c.req.valid("json");
- const session = c.get("session");
-const db = c.get("db");
+  const session = c.get("session");
+  const db = c.get("db");
 
   if (!session) {
     return c.json(
@@ -56,7 +56,7 @@ const db = c.get("db");
     .insert(messages)
     .values({
       ...body,
-      createdAt: new Date(),
+      createdAt: new Date()
     })
     .returning();
 
@@ -65,11 +65,11 @@ const db = c.get("db");
 
 // 🔍 Get a single message
 export const getOne: APIRouteHandler<GetByIdRoute> = async (c) => {
-const db = c.get("db");
+  const db = c.get("db");
   const { id } = c.req.valid("param");
 
   const message = await db.query.messages.findFirst({
-    where: eq(messages.id, String(id)),
+    where: eq(messages.id, String(id))
   });
 
   if (!message) {
@@ -84,6 +84,7 @@ const db = c.get("db");
 
 // Update message
 export const patch: APIRouteHandler<UpdateRoute> = async (c) => {
+  const db = c.get("db");
   const { id } = c.req.valid("param");
   const updates = c.req.valid("json");
   const session = c.get("user");
@@ -99,7 +100,7 @@ export const patch: APIRouteHandler<UpdateRoute> = async (c) => {
     .update(messages)
     .set({
       ...updates,
-      updatedAt: new Date(),
+      updatedAt: new Date()
     })
     .where(eq(messages.id, String(id)))
     .returning();
@@ -116,6 +117,7 @@ export const patch: APIRouteHandler<UpdateRoute> = async (c) => {
 
 //  Delete message
 export const remove: APIRouteHandler<RemoveRoute> = async (c) => {
+  const db = c.get("db");
   const { id } = c.req.valid("param");
   const session = c.get("user") as { organizationId?: string } | undefined;
 
@@ -145,6 +147,7 @@ export const remove: APIRouteHandler<RemoveRoute> = async (c) => {
 export const getByConversationId: APIRouteHandler<
   GetByConversationIdRoute
 > = async (c) => {
+  const db = c.get("db");
   const { conversationId } = c.req.valid("query");
 
   if (!conversationId) {
@@ -156,13 +159,13 @@ export const getByConversationId: APIRouteHandler<
 
   const results = await db.query.messages.findMany({
     where: eq(messages.conversationId, conversationId),
-    orderBy: (messages, { asc }) => [asc(messages.createdAt)],
+    orderBy: (messages, { asc }) => [asc(messages.createdAt)]
   });
 
   return c.json(
     {
       data: results,
-      totalCount: results.length,
+      totalCount: results.length
     },
     HttpStatusCodes.OK
   );

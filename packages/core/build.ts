@@ -13,7 +13,7 @@ const entrypoints = [
 const result = await Bun.build({
   entrypoints,
   outdir: "./dist",
-  target: "bun",
+  target: "node",
   format: "esm",
   splitting: false,
   sourcemap: "external",
@@ -26,6 +26,7 @@ const result = await Bun.build({
     "better-auth/plugins",
     "drizzle-orm",
     "drizzle-orm/neon-http",
+    "drizzle-orm/pg-core",
     "@neondatabase/serverless",
     "hono/client",
     "api/types",

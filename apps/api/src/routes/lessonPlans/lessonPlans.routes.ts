@@ -7,12 +7,12 @@ import {
   errorMessageSchema,
   getPaginatedSchema,
   queryParamsSchema,
-  stringIdParamSchema,
+  stringIdParamSchema
 } from "core/zod";
 import {
   lessonPlan,
   lessonPlanInsertSchema,
-  lessonPlanUpdateSchema,
+  lessonPlanUpdateSchema
 } from "./lessonPlans.schema";
 
 const tags: string[] = ["LessonPlan"];
@@ -24,7 +24,7 @@ export const list = createRoute({
   path: "/",
   method: "get",
   request: {
-    query: queryParamsSchema,
+    query: queryParamsSchema
   },
   responses: {
     [HttpStatusCodes.OK]: jsonContent(
@@ -34,8 +34,8 @@ export const list = createRoute({
     [HttpStatusCodes.UNAUTHORIZED]: jsonContent(
       errorMessageSchema,
       "Unauthorized access"
-    ),
-  },
+    )
+  }
 });
 
 // Get by ID route definition
@@ -45,7 +45,7 @@ export const getById = createRoute({
   method: "get",
   path: "/:id",
   request: {
-    params: stringIdParamSchema,
+    params: stringIdParamSchema
   },
   responses: {
     [HttpStatusCodes.OK]: jsonContent(lessonPlan, "The lessonPlan item"),
@@ -56,8 +56,8 @@ export const getById = createRoute({
     [HttpStatusCodes.NOT_FOUND]: jsonContent(
       errorMessageSchema,
       "LessonPlan not found"
-    ),
-  },
+    )
+  }
 });
 
 // Get lesson plans by class ID route definition
@@ -68,9 +68,9 @@ export const getByClassId = createRoute({
   path: "/class/:classId",
   request: {
     params: z.object({
-      classId: z.string(),
+      classId: z.string()
     }),
-    query: queryParamsSchema,
+    query: queryParamsSchema
   },
   responses: {
     [HttpStatusCodes.OK]: jsonContent(
@@ -84,8 +84,8 @@ export const getByClassId = createRoute({
     [HttpStatusCodes.NOT_FOUND]: jsonContent(
       errorMessageSchema,
       "No lesson plans found for this class"
-    ),
-  },
+    )
+  }
 });
 
 // Create LessonPlan route definition
@@ -98,7 +98,7 @@ export const create = createRoute({
     body: jsonContentRequired(
       lessonPlanInsertSchema,
       "Create uploaded lessonPlan"
-    ),
+    )
   },
   responses: {
     [HttpStatusCodes.CREATED]: jsonContent(
@@ -112,8 +112,8 @@ export const create = createRoute({
     [HttpStatusCodes.NOT_FOUND]: jsonContent(
       errorMessageSchema,
       "LessonPlan not created"
-    ),
-  },
+    )
+  }
 });
 
 // Update lessonPlan route definition
@@ -127,7 +127,7 @@ export const update = createRoute({
     body: jsonContentRequired(
       lessonPlanUpdateSchema,
       "Update lessonPlan details schema"
-    ),
+    )
   },
   responses: {
     [HttpStatusCodes.OK]: jsonContent(
@@ -138,8 +138,8 @@ export const update = createRoute({
     [HttpStatusCodes.UNAUTHORIZED]: jsonContent(
       errorMessageSchema,
       "Unauthorized access"
-    ),
-  },
+    )
+  }
 });
 
 export const remove = createRoute({
@@ -148,20 +148,15 @@ export const remove = createRoute({
   tags: ["LessonPlan"],
   summary: "Delete a user profile",
   request: {
-    params: z.object({ id: z.string() }),
+    params: z.object({ id: z.string() })
   },
   responses: {
     204: {
-      description: "No Content",
-      content: {
-        "application/json": {
-          schema: z.null(),
-        },
-      },
+      description: "No Content"
     },
     401: jsonContent(errorMessageSchema, "Unauthorized"),
-    404: jsonContent(errorMessageSchema, "Not Found"),
-  },
+    404: jsonContent(errorMessageSchema, "Not Found")
+  }
 });
 
 // Export types

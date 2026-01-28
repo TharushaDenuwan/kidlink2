@@ -7,12 +7,12 @@ import {
   errorMessageSchema,
   getPaginatedSchema,
   queryParamsSchema,
-  stringIdParamSchema,
+  stringIdParamSchema
 } from "core/zod";
 import {
   eventInsertSchema,
   eventSelectSchema,
-  eventUpdateSchema,
+  eventUpdateSchema
 } from "./event.schema";
 
 const tags: string[] = ["event"];
@@ -24,7 +24,7 @@ export const list = createRoute({
   path: "/",
   method: "get",
   request: {
-    query: queryParamsSchema,
+    query: queryParamsSchema
   },
   responses: {
     [HttpStatusCodes.OK]: jsonContent(
@@ -34,8 +34,8 @@ export const list = createRoute({
     [HttpStatusCodes.UNAUTHORIZED]: jsonContent(
       errorMessageSchema,
       "Unauthorized access"
-    ),
-  },
+    )
+  }
 });
 
 // Get by ID route definition
@@ -45,7 +45,7 @@ export const getById = createRoute({
   method: "get",
   path: "/:id",
   request: {
-    params: stringIdParamSchema,
+    params: stringIdParamSchema
   },
   responses: {
     [HttpStatusCodes.OK]: jsonContent(eventSelectSchema, "The event item"),
@@ -56,8 +56,8 @@ export const getById = createRoute({
     [HttpStatusCodes.NOT_FOUND]: jsonContent(
       errorMessageSchema,
       "event not found"
-    ),
-  },
+    )
+  }
 });
 
 // Create event route definition
@@ -67,7 +67,7 @@ export const create = createRoute({
   method: "post",
   path: "/",
   request: {
-    body: jsonContentRequired(eventInsertSchema, "Create uploaded event"),
+    body: jsonContentRequired(eventInsertSchema, "Create uploaded event")
   },
   responses: {
     [HttpStatusCodes.CREATED]: jsonContent(
@@ -81,8 +81,8 @@ export const create = createRoute({
     [HttpStatusCodes.NOT_FOUND]: jsonContent(
       errorMessageSchema,
       "event not created"
-    ),
-  },
+    )
+  }
 });
 
 // Update event route definition
@@ -93,7 +93,7 @@ export const update = createRoute({
   path: "/:id",
   request: {
     params: stringIdParamSchema,
-    body: jsonContentRequired(eventUpdateSchema, "Update event details schema"),
+    body: jsonContentRequired(eventUpdateSchema, "Update event details schema")
   },
   responses: {
     [HttpStatusCodes.OK]: jsonContent(eventUpdateSchema, "The event item"),
@@ -101,8 +101,8 @@ export const update = createRoute({
     [HttpStatusCodes.UNAUTHORIZED]: jsonContent(
       errorMessageSchema,
       "Unauthorized access"
-    ),
-  },
+    )
+  }
 });
 
 export const remove = createRoute({
@@ -111,20 +111,15 @@ export const remove = createRoute({
   tags: ["event"],
   summary: "Delete an Event",
   request: {
-    params: z.object({ id: z.string() }),
+    params: z.object({ id: z.string() })
   },
   responses: {
     204: {
-      description: "No Content",
-      content: {
-        "application/json": {
-          schema: z.null(),
-        },
-      },
+      description: "No Content"
     },
     401: jsonContent(errorMessageSchema, "Unauthorized"),
-    404: jsonContent(errorMessageSchema, "Not Found"),
-  },
+    404: jsonContent(errorMessageSchema, "Not Found")
+  }
 });
 
 // Export types

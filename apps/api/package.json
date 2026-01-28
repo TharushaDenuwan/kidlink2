@@ -4,8 +4,8 @@
   "version": "0.0.1",
   "exports": {
     "./types": {
-      "import": "./dist/types/index.js",
-      "types": "./src/registry/index.ts"
+      "types": "./src/registry/index.ts",
+      "import": "./dist/types/index.js"
     }
   },
   "scripts": {
