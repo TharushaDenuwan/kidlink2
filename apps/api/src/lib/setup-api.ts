@@ -6,7 +6,7 @@ import { notFound, onError, serveEmojiFavicon } from "stoker/middlewares";
 import { getAuth } from "core/auth/setup";
 import { env } from "core/env";
 
-import { APIBindings, OpenAPI } from "@/types";
+import { APIBindings, OpenAPI } from "../types";
 import { BASE_PATH } from "./constants";
 import { getDatabase } from "core/database";
 import { logger } from "hono/logger";
