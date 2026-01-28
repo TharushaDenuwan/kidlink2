@@ -1,5 +1,5 @@
 import { createAPIRouter } from "../lib/setup-api";
-import { OpenAPI } from "../lib/open-api-config";
+import { OpenAPI } from "../lib/types";
 
 import { BASE_PATH } from "../lib/constants";
 
