@@ -2,7 +2,7 @@ import { MiddlewareHandler } from "hono";
 
 import { getAuth } from "core/auth/setup";
 
-import { APIBindings } from "@/types";
+import { APIBindings } from "../types";
 
 export const authMiddleware: MiddlewareHandler<APIBindings> = async (
   c,
