@@ -1,6 +1,6 @@
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 
-import { tasks } from "@repo/database/schemas";
+import { tasks } from "core/database/schema/schemas";
 import { z } from "zod";
 
 // Convert createdAt , updatedAt to String from Date

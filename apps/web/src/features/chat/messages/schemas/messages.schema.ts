@@ -1,7 +1,7 @@
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
 
-import { messages } from "@repo/database";
+import { messages } from "core/database/schema";
 
 export const message = createSelectSchema(messages);
 

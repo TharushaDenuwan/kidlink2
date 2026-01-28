@@ -1,7 +1,7 @@
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
 
-import { payments } from "@repo/database";
+import { payments } from "core/database/schema";
 
 export const paymentsSchema = createSelectSchema(payments);
 

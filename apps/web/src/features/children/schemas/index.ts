@@ -1,7 +1,7 @@
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
 
-import { childrens } from "@repo/database";
+import { childrens } from "core/database/schema";
 
 export const children = createSelectSchema(childrens);
 
@@ -25,7 +25,7 @@ export type childrenUpdateType = z.infer<typeof childrenUpdateSchema>;
 export type children = z.infer<typeof children>;
 export type childrenInsertType = z.infer<typeof childrenInsertSchema>;
 
-import { classes } from "@repo/database";
+import { classes } from "core/database/schema";
 
 // Base select schema (from Drizzle)
 export const classSchema = createSelectSchema(classes, {

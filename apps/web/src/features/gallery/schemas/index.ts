@@ -1,4 +1,4 @@
-import { galleries } from "@repo/database";
+import { galleries } from "core/database/schema";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
 

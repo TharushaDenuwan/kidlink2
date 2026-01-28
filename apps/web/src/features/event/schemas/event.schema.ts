@@ -1,4 +1,4 @@
-import { event } from "@repo/database";
+import { event } from "core/database/schema";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
 

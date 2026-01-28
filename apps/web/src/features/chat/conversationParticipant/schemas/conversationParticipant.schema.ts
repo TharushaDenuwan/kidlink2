@@ -1,7 +1,7 @@
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
 
-import { conversationParticipants } from "@repo/database";
+import { conversationParticipants } from "core/database/schema";
 
 export const conversationParticipant = createSelectSchema(
   conversationParticipants
