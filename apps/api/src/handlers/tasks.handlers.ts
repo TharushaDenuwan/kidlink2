@@ -48,7 +48,6 @@ export const create: APIRouteHandler<CreateRoute> = async (c) => {
   try {
     const db = c.get("db");
   const session = c.get("session");
-const db = c.get("db");
     const body = c.req.valid("json");
 
     if (!session) {
@@ -109,7 +108,6 @@ export const patch: APIRouteHandler<PatchRoute> = async (c) => {
   try {
     const db = c.get("db");
    const session = c.get("session");
-const db = c.get("db");
 
     if (!session) {
       return c.json(
@@ -148,7 +146,6 @@ export const remove: APIRouteHandler<RemoveRoute> = async (c) => {
   try {
     const db = c.get("db");
    const session = c.get("session");
-const db = c.get("db");
 
     if (!session) {
       return c.json(
