@@ -7,12 +7,12 @@ import {
   errorMessageSchema,
   getPaginatedSchema,
   queryParamsSchema,
-  stringIdParamSchema,
+  stringIdParamSchema
 } from "core/zod";
 import {
   message,
   messageInsertSchema,
-  messageUpdateSchema,
+  messageUpdateSchema
 } from "./message.schema";
 
 const tags: string[] = ["Message"];
@@ -24,7 +24,7 @@ export const list = createRoute({
   path: "/",
   method: "get",
   request: {
-    query: queryParamsSchema,
+    query: queryParamsSchema
   },
   responses: {
     [HttpStatusCodes.OK]: jsonContent(
@@ -34,8 +34,8 @@ export const list = createRoute({
     [HttpStatusCodes.UNAUTHORIZED]: jsonContent(
       errorMessageSchema,
       "Unauthorized access"
-    ),
-  },
+    )
+  }
 });
 
 // Get by ID route definition
@@ -45,7 +45,7 @@ export const getById = createRoute({
   method: "get",
   path: "/:id",
   request: {
-    params: stringIdParamSchema,
+    params: stringIdParamSchema
   },
   responses: {
     [HttpStatusCodes.OK]: jsonContent(message, "The message item"),
@@ -56,8 +56,8 @@ export const getById = createRoute({
     [HttpStatusCodes.NOT_FOUND]: jsonContent(
       errorMessageSchema,
       "Message not found"
-    ),
-  },
+    )
+  }
 });
 
 // Create Message route definition
@@ -67,7 +67,7 @@ export const create = createRoute({
   method: "post",
   path: "/",
   request: {
-    body: jsonContentRequired(messageInsertSchema, "Create uploaded message"),
+    body: jsonContentRequired(messageInsertSchema, "Create uploaded message")
   },
   responses: {
     [HttpStatusCodes.CREATED]: jsonContent(message, "The message created"),
@@ -78,8 +78,8 @@ export const create = createRoute({
     [HttpStatusCodes.NOT_FOUND]: jsonContent(
       errorMessageSchema,
       "Message not created"
-    ),
-  },
+    )
+  }
 });
 
 // Update message route definition
@@ -93,7 +93,7 @@ export const update = createRoute({
     body: jsonContentRequired(
       messageUpdateSchema,
       "Update message details schema"
-    ),
+    )
   },
   responses: {
     [HttpStatusCodes.OK]: jsonContent(messageUpdateSchema, "The message item"),
@@ -101,8 +101,8 @@ export const update = createRoute({
     [HttpStatusCodes.UNAUTHORIZED]: jsonContent(
       errorMessageSchema,
       "Unauthorized access"
-    ),
-  },
+    )
+  }
 });
 
 export const remove = createRoute({
@@ -111,20 +111,15 @@ export const remove = createRoute({
   tags: ["Message"],
   summary: "Delete a user profile",
   request: {
-    params: z.object({ id: z.string() }),
+    params: z.object({ id: z.string() })
   },
   responses: {
     204: {
-      description: "No Content",
-      content: {
-        "application/json": {
-          schema: z.null(),
-        },
-      },
+      description: "No Content"
     },
     401: jsonContent(errorMessageSchema, "Unauthorized"),
-    404: jsonContent(errorMessageSchema, "Not Found"),
-  },
+    404: jsonContent(errorMessageSchema, "Not Found")
+  }
 });
 
 // Get messages by conversationId route definition
@@ -135,8 +130,8 @@ export const getByConversationId = createRoute({
   path: "/by-conversation",
   request: {
     query: z.object({
-      conversationId: z.string(),
-    }),
+      conversationId: z.string()
+    })
   },
   responses: {
     [HttpStatusCodes.OK]: jsonContent(
@@ -146,8 +141,8 @@ export const getByConversationId = createRoute({
     [HttpStatusCodes.BAD_REQUEST]: jsonContent(
       errorMessageSchema,
       "Invalid or missing conversationId"
-    ),
-  },
+    )
+  }
 });
 
 // Export types

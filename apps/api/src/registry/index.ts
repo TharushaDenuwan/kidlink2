@@ -12,7 +12,7 @@ import conversation from "../routes/conversations/conversation.index";
 import event from "../routes/event/event.index";
 import feedbacks from "../routes/feedbacks/feedback.index";
 import gallery from "../routes/gallery/gallery.index";
-import hotels from "../routes/hotels/hotel.index";
+// import hotels from "../routes/hotels/hotel.index";
 import lessonPlans from "../routes/lessonPlans/lessonPlans.index";
 import media from "../routes/media/media.index";
 import messages from "../routes/messages/message.index";
@@ -22,38 +22,37 @@ import nursery from "../routes/nursery/nursery.index";
 import organization from "../routes/organization/organization.index";
 import parent from "../routes/parents/parent.index";
 import payment from "../routes/payments/payments.index";
-import propertyClasses from "../routes/property-classes/property-classes.index";
+// import propertyClasses from "../routes/property-classes/property-classes.index";
 import system from "../routes/system/system.index";
 import tasks from "../routes/tasks/tasks.index";
 import teacher from "../routes/teachers/teacher.index";
 import user from "../routes/user/user.index";
 
-
 export function registerRoutes(app: OpenAPI) {
-const registeredApp = app
-  .route("/", index)
-  .route("/badges", badges)
-  .route("/children", children)
-  .route("/conversation-participants", conversationParticipant)
-  .route("/conversations", conversation)
-  .route("/events", event)
-  .route("/feedbacks", feedbacks)
-  .route("/gallery", gallery)
-  // .route("/hotels", hotels)
-  .route("/lesson-plans", lessonPlans)
-  .route("/media", media)
-  .route("/messages", messages)
-  .route("/notifications", notification)
-  .route("/nursery-classes", nurseryClass)
-  .route("/nurseries", nursery)
-  .route("/organizations", organization)
-  .route("/parents", parent)
-  .route("/payments", payment)
-  // .route("/property-classes", propertyClasses)
-  .route("/system", system)
-  .route("/tasks", tasks)
-  .route("/teachers", teacher)
-  .route("/users", user);
+  const registeredApp = app
+    .route("/", index)
+    .route("/badges", badges)
+    .route("/children", children)
+    .route("/conversation-participants", conversationParticipant)
+    .route("/conversations", conversation)
+    .route("/events", event)
+    .route("/feedbacks", feedbacks)
+    .route("/gallery", gallery)
+    // .route("/hotels", hotels)
+    .route("/lesson-plans", lessonPlans)
+    .route("/media", media)
+    .route("/messages", messages)
+    .route("/notifications", notification)
+    .route("/nursery-classes", nurseryClass)
+    .route("/nurseries", nursery)
+    .route("/organizations", organization)
+    .route("/parents", parent)
+    .route("/payments", payment)
+    // .route("/property-classes", propertyClasses)
+    .route("/system", system)
+    .route("/tasks", tasks)
+    .route("/teachers", teacher)
+    .route("/users", user);
 
   return registeredApp;
 }

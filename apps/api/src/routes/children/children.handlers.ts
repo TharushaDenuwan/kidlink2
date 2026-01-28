@@ -11,7 +11,7 @@ import {
   classes,
   nurseries,
   parents,
-  teachers,
+  teachers
 } from "core/database/schema";
 
 import type {
@@ -21,14 +21,13 @@ import type {
   ListRoute,
   ListWithObjectsRoute,
   RemoveRoute,
-  UpdateRoute,
+  UpdateRoute
 } from "./children.routes";
 
 // 🔍 List all childrens with optional childId filter
 export const list: APIRouteHandler<ListRoute> = async (c) => {
-
- const session = c.get("session");
-const db = c.get("db");
+  const session = c.get("session");
+  const db = c.get("db");
   const { childId } = c.req.valid("query");
 
   if (!session?.activeOrganizationId) {
@@ -51,7 +50,7 @@ const db = c.get("db");
   // Fetch children filtered by the current organization ID and optionally by childId
   const results = await db.query.childrens.findMany({
     where:
-      whereConditions.length > 1 ? and(...whereConditions) : whereConditions[0],
+      whereConditions.length > 1 ? and(...whereConditions) : whereConditions[0]
   });
 
   const page = 1; // or from query params
@@ -66,8 +65,8 @@ const db = c.get("db");
         totalCount,
         limit,
         currentPage: page,
-        totalPages,
-      },
+        totalPages
+      }
     },
     HttpStatusCodes.OK
   );
@@ -75,10 +74,10 @@ const db = c.get("db");
 
 // Create new children
 export const create: APIRouteHandler<CreateRoute> = async (c) => {
-        const db = c.get("db");
+  const db = c.get("db");
 
   const body = c.req.valid("json");
- const session = c.get("session");
+  const session = c.get("session");
 
   if (!session) {
     return c.json(
@@ -92,7 +91,7 @@ export const create: APIRouteHandler<CreateRoute> = async (c) => {
     .values({
       ...body,
       organizationId: session.activeOrganizationId,
-      createdAt: new Date(),
+      createdAt: new Date()
     })
     .returning();
 
@@ -106,7 +105,7 @@ export const getOne: APIRouteHandler<GetByIdRoute> = async (c) => {
   const { id } = c.req.valid("param");
 
   const children = await db.query.childrens.findFirst({
-    where: eq(childrens.id, String(id)),
+    where: eq(childrens.id, String(id))
   });
 
   if (!children) {
@@ -121,7 +120,7 @@ export const getOne: APIRouteHandler<GetByIdRoute> = async (c) => {
 
 // Update children
 export const patch: APIRouteHandler<UpdateRoute> = async (c) => {
-        const db = c.get("db");
+  const db = c.get("db");
 
   const { id } = c.req.valid("param");
   const updates = c.req.valid("json");
@@ -138,7 +137,7 @@ export const patch: APIRouteHandler<UpdateRoute> = async (c) => {
     .update(childrens)
     .set({
       ...updates,
-      updatedAt: new Date(),
+      updatedAt: new Date()
     })
     .where(eq(childrens.id, String(id)))
     .returning();
@@ -155,7 +154,7 @@ export const patch: APIRouteHandler<UpdateRoute> = async (c) => {
 
 //  Delete children
 export const remove: APIRouteHandler<RemoveRoute> = async (c) => {
-        const db = c.get("db");
+  const db = c.get("db");
 
   const { id } = c.req.valid("param");
   const session = c.get("user") as { organizationId?: string } | undefined;
@@ -184,13 +183,13 @@ export const remove: APIRouteHandler<RemoveRoute> = async (c) => {
 
 // 🔍 Get children by parent ID
 export const getByParentId: APIRouteHandler<GetByParentIdRoute> = async (c) => {
-        const db = c.get("db");
+  const db = c.get("db");
 
   const { parentId } = c.req.valid("param");
 
   // Fetch children filtered by parent ID
   const results = await db.query.childrens.findMany({
-    where: eq(childrens.parentId, parentId),
+    where: eq(childrens.parentId, parentId)
   });
 
   const page = 1; // or from query params
@@ -205,8 +204,8 @@ export const getByParentId: APIRouteHandler<GetByParentIdRoute> = async (c) => {
         totalCount,
         limit,
         currentPage: page,
-        totalPages,
-      },
+        totalPages
+      }
     },
     HttpStatusCodes.OK
   );
@@ -214,12 +213,10 @@ export const getByParentId: APIRouteHandler<GetByParentIdRoute> = async (c) => {
 
 // 🔍 List all children with populated objects and optional childId filter
 export const listWithObjects: APIRouteHandler<ListWithObjectsRoute> = async (
-
   c
 ) => {
-
- const session = c.get("session");
-const db = c.get("db");
+  const session = c.get("session");
+  const db = c.get("db");
   const { childId } = c.req.valid("query");
 
   if (!session?.activeOrganizationId) {
@@ -242,35 +239,53 @@ const db = c.get("db");
   // Fetch children filtered by the current organization ID and optionally by childId
   const childrenResults = await db.query.childrens.findMany({
     where:
-      whereConditions.length > 1 ? and(...whereConditions) : whereConditions[0],
+      whereConditions.length > 1 ? and(...whereConditions) : whereConditions[0]
   });
 
   // Get unique IDs for bulk fetching
   const nurseryIds = [
-    ...new Set(childrenResults.map((child) => child.nurseryId).filter(Boolean)),
+    ...new Set(
+      childrenResults
+        .map((child) => child.nurseryId)
+        .filter((id): id is string => id !== null && id !== undefined)
+    )
   ];
   const parentIds = [
-    ...new Set(childrenResults.map((child) => child.parentId).filter(Boolean)),
+    ...new Set(
+      childrenResults
+        .map((child) => child.parentId)
+        .filter((id): id is string => id !== null && id !== undefined)
+    )
   ];
   const classIds = [
-    ...new Set(childrenResults.map((child) => child.classId).filter(Boolean)),
+    ...new Set(
+      childrenResults
+        .map((child) => child.classId)
+        .filter((id): id is string => id !== null && id !== undefined)
+    )
   ];
   const allBadgeIds = [
     ...new Set(
-      childrenResults.flatMap((child) => child.badgeId || []).filter(Boolean)
-    ),
+      childrenResults
+        .flatMap((child) => child.badgeId || [])
+        .filter((id): id is string => id !== null && id !== undefined)
+    )
   ];
 
   // First fetch classes to get teacherIds, then fetch teachers
   const classesData =
     classIds.length > 0
       ? await db.query.classes.findMany({
-          where: inArray(classes.id, classIds),
+          where: inArray(classes.id, classIds)
         })
       : [];
 
   const teacherIds = [
-    ...new Set(classesData.map((cls) => cls.teacherId).filter(Boolean)),
+    ...new Set(
+      classesData
+        .flatMap((cls) => cls.teacherIds || [])
+        .filter((id): id is string => id !== null && id !== undefined)
+    )
   ];
 
   // Bulk fetch related data
@@ -278,24 +293,24 @@ const db = c.get("db");
     await Promise.all([
       nurseryIds.length > 0
         ? db.query.nurseries.findMany({
-            where: inArray(nurseries.id, nurseryIds),
+            where: inArray(nurseries.id, nurseryIds)
           })
         : [],
       parentIds.length > 0
         ? db.query.parents.findMany({
-            where: inArray(parents.id, parentIds),
+            where: inArray(parents.id, parentIds)
           })
         : [],
       allBadgeIds.length > 0
         ? db.query.badges.findMany({
-            where: inArray(badges.id, allBadgeIds),
+            where: inArray(badges.id, allBadgeIds)
           })
         : [],
       teacherIds.length > 0
         ? db.query.teachers.findMany({
-            where: inArray(teachers.id, teacherIds),
+            where: inArray(teachers.id, teacherIds)
           })
-        : [],
+        : []
     ]);
 
   // Create lookup maps for better performance
@@ -326,25 +341,20 @@ const db = c.get("db");
     nursery: child.nurseryId
       ? {
           id: child.nurseryId,
-          name: nurseryMap.get(child.nurseryId)?.name || "Unknown Nursery",
+          title: nurseryMap.get(child.nurseryId)?.title || "Unknown Nursery",
           address: nurseryMap.get(child.nurseryId)?.address || null,
-          phoneNumber: nurseryMap.get(child.nurseryId)?.phoneNumber || null,
-          email: nurseryMap.get(child.nurseryId)?.email || null,
+          phoneNumbers: nurseryMap.get(child.nurseryId)?.phoneNumbers || null,
           organizationId:
             nurseryMap.get(child.nurseryId)?.organizationId || null,
-          capacity: nurseryMap.get(child.nurseryId)?.capacity || null,
           description: nurseryMap.get(child.nurseryId)?.description || null,
-          imageUrl: nurseryMap.get(child.nurseryId)?.imageUrl || null,
-          operatingHours:
-            nurseryMap.get(child.nurseryId)?.operatingHours || null,
-          facilities: nurseryMap.get(child.nurseryId)?.facilities || null,
-          ageRange: nurseryMap.get(child.nurseryId)?.ageRange || null,
+          logo: nurseryMap.get(child.nurseryId)?.logo || null,
+          photos: nurseryMap.get(child.nurseryId)?.photos || null,
+          longitude: nurseryMap.get(child.nurseryId)?.longitude || null,
+          latitude: nurseryMap.get(child.nurseryId)?.latitude || null,
           createdAt: toISOStringSafe(
             nurseryMap.get(child.nurseryId)?.createdAt
           ),
-          updatedAt: toISOStringSafe(
-            nurseryMap.get(child.nurseryId)?.updatedAt
-          ),
+          updatedAt: toISOStringSafe(nurseryMap.get(child.nurseryId)?.updatedAt)
         }
       : null,
 
@@ -355,11 +365,8 @@ const db = c.get("db");
           email: parentMap.get(child.parentId)?.email || "",
           phoneNumber: parentMap.get(child.parentId)?.phoneNumber || "",
           address: parentMap.get(child.parentId)?.address || null,
-          occupation: parentMap.get(child.parentId)?.occupation || null,
-          emergencyContact:
-            parentMap.get(child.parentId)?.emergencyContact || null,
           createdAt: toISOStringSafe(parentMap.get(child.parentId)?.createdAt),
-          updatedAt: toISOStringSafe(parentMap.get(child.parentId)?.updatedAt),
+          updatedAt: toISOStringSafe(parentMap.get(child.parentId)?.updatedAt)
         }
       : null,
 
@@ -367,17 +374,11 @@ const db = c.get("db");
       ? {
           id: child.classId,
           name: classMap.get(child.classId)?.name || "Unknown Class",
-          teacherId: classMap.get(child.classId)?.teacherId || null,
-          teacherName: classMap.get(child.classId)?.teacherId
-            ? teacherMap.get(classMap.get(child.classId)!.teacherId!)?.name ||
-              null
-            : null,
-          capacity: classMap.get(child.classId)?.capacity || null,
-          ageRange: classMap.get(child.classId)?.ageRange || null,
-          description: classMap.get(child.classId)?.description || null,
-          schedule: classMap.get(child.classId)?.schedule || null,
+          mainTeacherId: classMap.get(child.classId)?.mainTeacherId || null,
+          teacherIds: classMap.get(child.classId)?.teacherIds || null,
+          nurseryId: classMap.get(child.classId)?.nurseryId || null,
           createdAt: toISOStringSafe(classMap.get(child.classId)?.createdAt),
-          updatedAt: toISOStringSafe(classMap.get(child.classId)?.updatedAt),
+          updatedAt: toISOStringSafe(classMap.get(child.classId)?.updatedAt)
         }
       : null,
 
@@ -386,23 +387,23 @@ const db = c.get("db");
       return badge
         ? {
             id: badge.id,
-            name: badge.name,
+            title: badge.title,
             description: badge.description || null,
-            imageUrl: badge.imageUrl || null,
-            category: badge.category || null,
+            iconUrl: badge.iconUrl || null,
+            badgeType: badge.badgeType || null,
             points: badge.points || null,
-            requirements: badge.requirements || null,
-            earnedAt: toISOStringSafe(badge.createdAt),
+            level: badge.level || null,
+            awardedAt: toISOStringSafe(badge.awardedAt)
           }
         : {
             id: badgeId,
-            name: "Unknown Badge",
+            title: "Unknown Badge",
             description: null,
-            imageUrl: null,
-            category: null,
+            iconUrl: null,
+            badgeType: null,
             points: null,
-            requirements: null,
-            earnedAt: null,
+            level: null,
+            awardedAt: null
           };
     }),
 
@@ -414,7 +415,7 @@ const db = c.get("db");
     imagesUrl: child.imagesUrl,
     activities: child.activities,
     createdAt: toISOStringSafe(child.createdAt),
-    updatedAt: toISOStringSafe(child.updatedAt),
+    updatedAt: toISOStringSafe(child.updatedAt)
   }));
 
   const page = 1; // or from query params
@@ -429,8 +430,8 @@ const db = c.get("db");
         totalCount,
         limit,
         currentPage: page,
-        totalPages,
-      },
+        totalPages
+      }
     },
     HttpStatusCodes.OK
   );

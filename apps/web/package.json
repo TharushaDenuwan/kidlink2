@@ -2,9 +2,9 @@
   "name": "web",
   "version": "0.1.0",
   "scripts": {
-    "dev": "bun --bun next dev",
-    "build": "bun --bun next build",
-    "start": "bun --bun next start",
+    "dev": "bun run --filter core build && bun run --filter api build:types && next dev",
+    "build": "bun run --filter core build && bun run --filter api build:types && next build",
+    "start": "next start",
     "lint": "eslint"
   },
   "dependencies": {
@@ -46,6 +46,7 @@
     "cmdk": "^1.1.1",
     "cookies-next": "^6.1.1",
     "core": "workspace:*",
+    "api": "workspace:*",
     "date-fns": "^4.1.0",
     "embla-carousel-react": "^8.6.0",
     "hono": "catalog:",

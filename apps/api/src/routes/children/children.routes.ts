@@ -7,19 +7,19 @@ import {
   errorMessageSchema,
   getPaginatedSchema,
   queryParamsSchema,
-  stringIdParamSchema,
+  stringIdParamSchema
 } from "core/zod";
 import {
   children,
   childrenInsertSchema,
-  childrenUpdateSchema,
+  childrenUpdateSchema
 } from "./children.schema";
 
 const tags: string[] = ["Children"];
 
 // Extended query params schema to include childId filter
 const extendedQueryParamsSchema = queryParamsSchema.extend({
-  childId: z.string().optional(),
+  childId: z.string().optional()
 });
 
 // List route definition with optional childId query parameter
@@ -29,7 +29,7 @@ export const list = createRoute({
   path: "/",
   method: "get",
   request: {
-    query: extendedQueryParamsSchema,
+    query: extendedQueryParamsSchema
   },
   responses: {
     [HttpStatusCodes.OK]: jsonContent(
@@ -39,8 +39,8 @@ export const list = createRoute({
     [HttpStatusCodes.UNAUTHORIZED]: jsonContent(
       errorMessageSchema,
       "Unauthorized access"
-    ),
-  },
+    )
+  }
 });
 
 // Get by ID route definition
@@ -50,7 +50,7 @@ export const getById = createRoute({
   method: "get",
   path: "/:id",
   request: {
-    params: stringIdParamSchema,
+    params: stringIdParamSchema
   },
   responses: {
     [HttpStatusCodes.OK]: jsonContent(children, "The children item"),
@@ -61,8 +61,8 @@ export const getById = createRoute({
     [HttpStatusCodes.NOT_FOUND]: jsonContent(
       errorMessageSchema,
       "Children not found"
-    ),
-  },
+    )
+  }
 });
 
 // Create Children route definition
@@ -72,7 +72,7 @@ export const create = createRoute({
   method: "post",
   path: "/",
   request: {
-    body: jsonContentRequired(childrenInsertSchema, "Create uploaded children"),
+    body: jsonContentRequired(childrenInsertSchema, "Create uploaded children")
   },
   responses: {
     [HttpStatusCodes.CREATED]: jsonContent(children, "The children created"),
@@ -83,8 +83,8 @@ export const create = createRoute({
     [HttpStatusCodes.NOT_FOUND]: jsonContent(
       errorMessageSchema,
       "Children not created"
-    ),
-  },
+    )
+  }
 });
 
 // Update children route definition
@@ -98,7 +98,7 @@ export const update = createRoute({
     body: jsonContentRequired(
       childrenUpdateSchema,
       "Update children details schema"
-    ),
+    )
   },
   responses: {
     [HttpStatusCodes.OK]: jsonContent(
@@ -109,30 +109,25 @@ export const update = createRoute({
     [HttpStatusCodes.UNAUTHORIZED]: jsonContent(
       errorMessageSchema,
       "Unauthorized access"
-    ),
-  },
+    )
+  }
 });
 
 export const remove = createRoute({
   method: "delete",
   path: "/:id",
   tags: ["Children"],
-  summary: "Delete a user profile",
+  summary: "Delete a children record",
   request: {
-    params: z.object({ id: z.string() }),
+    params: z.object({ id: z.string() })
   },
   responses: {
     204: {
-      description: "No Content",
-      content: {
-        "application/json": {
-          schema: z.null(),
-        },
-      },
+      description: "No Content"
     },
     401: jsonContent(errorMessageSchema, "Unauthorized"),
-    404: jsonContent(errorMessageSchema, "Not Found"),
-  },
+    404: jsonContent(errorMessageSchema, "Not Found")
+  }
 });
 
 // Get children by parent ID route definition
@@ -143,8 +138,8 @@ export const getByParentId = createRoute({
   path: "/parent/:parentId",
   request: {
     params: z.object({
-      parentId: z.string(),
-    }),
+      parentId: z.string()
+    })
   },
   responses: {
     [HttpStatusCodes.OK]: jsonContent(
@@ -158,8 +153,8 @@ export const getByParentId = createRoute({
     [HttpStatusCodes.NOT_FOUND]: jsonContent(
       errorMessageSchema,
       "No children found for the given parent ID"
-    ),
-  },
+    )
+  }
 });
 
 // Update the listWithObjects route with enhanced nursery object
@@ -169,7 +164,7 @@ export const listWithObjects = createRoute({
   path: "/with-objects",
   method: "get",
   request: {
-    query: extendedQueryParamsSchema,
+    query: extendedQueryParamsSchema
   },
   responses: {
     [HttpStatusCodes.OK]: jsonContent(
@@ -182,19 +177,17 @@ export const listWithObjects = createRoute({
             nursery: z
               .object({
                 id: z.string(),
-                name: z.string(),
+                title: z.string(),
                 address: z.string().nullable(),
-                phoneNumber: z.string().nullable(),
-                email: z.string().nullable(),
+                phoneNumbers: z.array(z.string()).nullable(),
                 organizationId: z.string().nullable(),
-                capacity: z.number().nullable(),
                 description: z.string().nullable(),
-                imageUrl: z.string().nullable(),
-                operatingHours: z.string().nullable(),
-                facilities: z.string().nullable(),
-                ageRange: z.string().nullable(),
+                logo: z.string().nullable(),
+                photos: z.array(z.string()).nullable(),
+                longitude: z.number().nullable(),
+                latitude: z.number().nullable(),
                 createdAt: z.string().nullable(),
-                updatedAt: z.string().nullable(),
+                updatedAt: z.string().nullable()
               })
               .nullable(),
             parent: z
@@ -204,36 +197,31 @@ export const listWithObjects = createRoute({
                 email: z.string(),
                 phoneNumber: z.string(),
                 address: z.string().nullable(),
-                occupation: z.string().nullable(),
-                emergencyContact: z.string().nullable(),
                 createdAt: z.string().nullable(),
-                updatedAt: z.string().nullable(),
+                updatedAt: z.string().nullable()
               })
               .nullable(),
             class: z
               .object({
                 id: z.string(),
                 name: z.string(),
-                teacherId: z.string().nullable(),
-                teacherName: z.string().nullable(),
-                capacity: z.number().nullable(),
-                ageRange: z.string().nullable(),
-                description: z.string().nullable(),
-                schedule: z.string().nullable(),
+                mainTeacherId: z.string().nullable(),
+                teacherIds: z.array(z.string()).nullable(),
+                nurseryId: z.string().nullable(),
                 createdAt: z.string().nullable(),
-                updatedAt: z.string().nullable(),
+                updatedAt: z.string().nullable()
               })
               .nullable(),
             badges: z.array(
               z.object({
                 id: z.string(),
-                name: z.string(),
+                title: z.string(),
                 description: z.string().nullable(),
-                imageUrl: z.string().nullable(),
-                category: z.string().nullable(),
+                iconUrl: z.string().nullable(),
+                badgeType: z.string().nullable(),
                 points: z.number().nullable(),
-                requirements: z.string().nullable(),
-                earnedAt: z.string().nullable(),
+                level: z.string().nullable(),
+                awardedAt: z.string().nullable()
               })
             ),
             dateOfBirth: z.string().nullable(),
@@ -244,7 +232,7 @@ export const listWithObjects = createRoute({
             imagesUrl: z.string().nullable(),
             activities: z.string().nullable(),
             createdAt: z.string().nullable(),
-            updatedAt: z.string().nullable(),
+            updatedAt: z.string().nullable()
           })
         )
       ),
@@ -253,8 +241,8 @@ export const listWithObjects = createRoute({
     [HttpStatusCodes.UNAUTHORIZED]: jsonContent(
       errorMessageSchema,
       "Unauthorized access"
-    ),
-  },
+    )
+  }
 });
 
 // Export types
