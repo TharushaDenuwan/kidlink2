@@ -43,3 +43,4 @@ if (!result.success) {
 
 console.log("✓ Build successful!");
 console.log(`✓ Generated ${result.outputs.length} files`);
+
