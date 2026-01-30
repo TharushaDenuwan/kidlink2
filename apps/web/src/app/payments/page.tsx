@@ -1,12 +1,12 @@
-// // import UpdateNotificationForm from "@/features/notification/components/update-notification";
+// import UpdateNotificationForm from "@/features/notification/components/update-notification";
 
-// import { PaymentForm } from "@/features/payments/components/payment";
+import { AddNewPayment } from "@/features/payments/components/add-new-payment";
 
-// export default function Page() {
-//   return (
-//     <div className="space-y-6">
-//       <PaymentForm />
-//       {/* <UpdateNotificationForm /> */}
-//     </div>
-//   );
-// }
+export default function Page() {
+  return (
+    <div className="space-y-6">
+      <AddNewPayment />
+      {/* <UpdateNotificationForm /> */}
+    </div>
+  );
+}

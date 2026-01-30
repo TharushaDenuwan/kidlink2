@@ -142,27 +142,45 @@ export const update = createRoute({
   },
 });
 
+// export const remove = createRoute({
+//   method: "delete",
+//   path: "/:id",
+//   tags: ["LessonPlan"],
+//   summary: "Delete a user profile",
+//   request: {
+//     params: z.object({ id: z.string() }),
+//   },
+//   responses: {
+//     204: {
+//       description: "No Content",
+//       content: {
+//         "application/json": {
+//           schema: z.null(),
+//         },
+//       },
+//     },
+//     401: jsonContent(errorMessageSchema, "Unauthorized"),
+//     404: jsonContent(errorMessageSchema, "Not Found"),
+//   },
+// });
+
 export const remove = createRoute({
   method: "delete",
   path: "/:id",
   tags: ["LessonPlan"],
-  summary: "Delete a user profile",
+  summary: "Delete a lesson plan",
   request: {
     params: z.object({ id: z.string() }),
   },
   responses: {
     204: {
-      description: "No Content",
-      content: {
-        "application/json": {
-          schema: z.null(),
-        },
-      },
+      description: "Deleted successfully",
     },
     401: jsonContent(errorMessageSchema, "Unauthorized"),
     404: jsonContent(errorMessageSchema, "Not Found"),
   },
 });
+
 
 // Export types
 export type ListRoute = typeof list;

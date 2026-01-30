@@ -154,33 +154,32 @@ export const patch: APIRouteHandler<UpdateRoute> = async (c) => {
 };
 
 //  Delete children
-export const remove: APIRouteHandler<RemoveRoute> = async (c) => {
-        const db = c.get("db");
+// export const remove: APIRouteHandler<RemoveRoute> = async (c) => {
+//   const db = c.get("db");
+//   const { id } = c.req.valid("param");
+//   const session = c.get("user") as { organizationId?: string } | undefined;
 
-  const { id } = c.req.valid("param");
-  const session = c.get("user") as { organizationId?: string } | undefined;
+//   if (!session) {
+//     return c.json(
+//       { message: HttpStatusPhrases.UNAUTHORIZED },
+//       HttpStatusCodes.UNAUTHORIZED
+//     );
+//   }
 
-  if (!session) {
-    return c.json(
-      { message: HttpStatusPhrases.UNAUTHORIZED },
-      HttpStatusCodes.UNAUTHORIZED
-    );
-  }
+//   const [deleted] = await db
+//     .delete(childrens)
+//     .where(eq(childrens.id, String(id)))
+//     .returning();
 
-  const [deleted] = await db
-    .delete(childrens)
-    .where(eq(childrens.id, String(id)))
-    .returning();
+//   if (!deleted) {
+//     return c.json(
+//       { message: HttpStatusPhrases.NOT_FOUND },
+//       HttpStatusCodes.NOT_FOUND
+//     );
+//   }
 
-  if (!deleted) {
-    return c.json(
-      { message: HttpStatusPhrases.NOT_FOUND },
-      HttpStatusCodes.NOT_FOUND
-    );
-  }
-
-  return c.body(null, HttpStatusCodes.NO_CONTENT);
-};
+//   return c.body(null, HttpStatusCodes.NO_CONTENT);
+// };
 
 // 🔍 Get children by parent ID
 export const getByParentId: APIRouteHandler<GetByParentIdRoute> = async (c) => {
@@ -265,7 +264,7 @@ const db = c.get("db");
   const classesData =
     classIds.length > 0
       ? await db.query.classes.findMany({
-          where: inArray(classes.id, classIds),
+          where: inArray(classes.id, classIds.filter((id): id is string => id !== null) as string[]),
         })
       : [];
 
@@ -388,7 +387,7 @@ const db = c.get("db");
             id: badge.id,
             name: badge.name,
             description: badge.description || null,
-            imageUrl: badge.imageUrl || null,
+            imageUrl: badge.imageUrl.toString() || null,
             category: badge.category || null,
             points: badge.points || null,
             requirements: badge.requirements || null,

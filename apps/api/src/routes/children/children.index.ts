@@ -11,6 +11,6 @@ const router = createAPIRouter()
   .openapi(routes.create, handlers.create)
   .openapi(routes.getById, handlers.getOne)
   .openapi(routes.update, handlers.patch)
-  .openapi(routes.remove, handlers.remove);
+  // .openapi(routes.remove, handlers.remove);
 
 export default router;

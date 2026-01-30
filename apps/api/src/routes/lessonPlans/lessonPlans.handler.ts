@@ -177,6 +177,34 @@ export const patch: APIRouteHandler<UpdateRoute> = async (c) => {
 };
 
 //  Delete lessonPlan
+// export const remove: APIRouteHandler<RemoveRoute> = async (c) => {
+//   const { id } = c.req.valid("param");
+//   const db = c.get("db");
+//   const session = c.get("user") as { organizationId?: string } | undefined;
+
+//   if (!session) {
+//     return c.json(
+//       { message: HttpStatusPhrases.UNAUTHORIZED },
+//       HttpStatusCodes.UNAUTHORIZED
+//     );
+//   }
+
+//   const [deleted] = await db
+//     .delete(lessonPlans)
+//     .where(eq(lessonPlans.id, String(id)))
+//     .returning();
+
+//   if (!deleted) {
+//     return c.json(
+//       { message: HttpStatusPhrases.NOT_FOUND },
+//       HttpStatusCodes.NOT_FOUND
+//     );
+//   }
+
+//   return c.json(null, HttpStatusCodes.OK);
+// };
+
+
 export const remove: APIRouteHandler<RemoveRoute> = async (c) => {
   const { id } = c.req.valid("param");
   const db = c.get("db");
@@ -191,7 +219,7 @@ export const remove: APIRouteHandler<RemoveRoute> = async (c) => {
 
   const [deleted] = await db
     .delete(lessonPlans)
-    .where(eq(lessonPlans.id, String(id)))
+    .where(eq(lessonPlans.id, id))
     .returning();
 
   if (!deleted) {
@@ -201,8 +229,9 @@ export const remove: APIRouteHandler<RemoveRoute> = async (c) => {
     );
   }
 
-  return c.json({ message: "Deleted successfully" }, HttpStatusCodes.OK);
+  return c.json(null,  HttpStatusCodes.NOT_FOUND); // ✅ matches route schema
 };
+
 
 // import { eq } from "drizzle-orm";
 // import * as HttpStatusCodes from "stoker/http-status-codes";

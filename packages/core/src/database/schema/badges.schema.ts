@@ -27,6 +27,7 @@ export const badges = pgTable("badges", {
   id: text("id")
     .primaryKey()
     .default(sql`gen_random_uuid()`),
+    
 
   organizationId: text("organization_id").references(() => organizations.id),
 
